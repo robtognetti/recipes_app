@@ -1,6 +1,7 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
-function Card({ thumb, str, index }) {
+export default function Card({ thumb, str, index }) {
   return (
     <>
       <img src={ thumb } alt={ str } data-testid={ `${index}-card-img` } />
@@ -9,4 +10,8 @@ function Card({ thumb, str, index }) {
   );
 }
 
-export default Card;
+Card.propTypes = {
+  thumb: PropTypes.string.isRequired,
+  str: PropTypes.string.isRequired,
+  index: PropTypes.number.isRequired,
+};
