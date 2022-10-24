@@ -1,11 +1,12 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import Buttons from '../components/Buttons';
 import Card from '../components/Card';
+import AppContext from '../context/AppContext';
 
 const MAX_RENDER = 11;
 
 export default function Meals() {
-  const [mealList, setMealList] = useState([]);
+  const { mealList, setMealList } = useContext(AppContext);
   const [buttonsList, setButtonsList] = useState([]);
 
   useEffect(() => {
@@ -21,11 +22,11 @@ export default function Meals() {
     };
     getMealsList();
     getCategories();
-  }, []);
+  }, [setMealList]);
 
   return (
     <div>
-      <Buttons categories={ buttonsList } />
+      <Buttons categories={ buttonsList } type="meals" />
       {mealList.map((meal, i) => {
         if (i <= MAX_RENDER) {
           return (

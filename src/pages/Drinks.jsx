@@ -1,11 +1,12 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import Buttons from '../components/Buttons';
 import Card from '../components/Card';
+import AppContext from '../context/AppContext';
 
 const MAX_RENDER = 11;
 
 export default function Drinks() {
-  const [drinksList, setDrinksList] = useState([]);
+  const { drinksList, setDrinksList } = useContext(AppContext);
   const [buttonsList, setButtonsList] = useState([]);
 
   useEffect(() => {
@@ -21,11 +22,11 @@ export default function Drinks() {
     };
     getDrinksList();
     getCategories();
-  }, []);
+  }, [setDrinksList]);
 
   return (
     <div>
-      <Buttons categories={ buttonsList } />
+      <Buttons categories={ buttonsList } type="drinks" />
       {drinksList.map((drink, i) => {
         if (i <= MAX_RENDER) {
           return (
