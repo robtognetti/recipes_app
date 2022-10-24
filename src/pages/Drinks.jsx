@@ -31,7 +31,12 @@ export default function Drinks() {
         if (i <= MAX_RENDER) {
           return (
             <section key={ drink.idDrink } data-testid={ `${i}-recipe-card` }>
-              <Card thumb={ drink.strDrinkThumb } str={ drink.strDrink } index={ i } />
+              <Card
+                thumb={ drink.strDrinkThumb }
+                str={ drink.strDrink }
+                index={ i }
+                idMeal={ drink.idDrink }
+              />
             </section>
           );
         }
