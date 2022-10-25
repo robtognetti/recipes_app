@@ -1,11 +1,16 @@
 import React from 'react';
-import Routes from './routes/Routes';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
+import Routes from './routes/Routes';
+import Provider from './context/AppProvider';
 
 function App() {
-  return <Routes />;
+  return (
+    <Provider>
+      <Routes />
+    </Provider>
+  );
 }
 
 export default App;

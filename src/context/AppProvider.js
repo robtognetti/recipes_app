@@ -1,6 +1,5 @@
 import React, { useState, useMemo } from 'react';
-import { object } from 'prop-types';
-
+import { node } from 'prop-types';
 import AppContext from './AppContext';
 
 export default function Provider({ children }) {
@@ -22,5 +21,5 @@ export default function Provider({ children }) {
 }
 
 Provider.propTypes = {
-  children: object,
+  children: node,
 }.isRequired;
