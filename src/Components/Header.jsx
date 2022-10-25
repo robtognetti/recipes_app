@@ -33,13 +33,13 @@ function Header() {
           </div>
         </div>
         <div className="title-container">
-          <HeaderTittle text="Titulo" route={pathname} />
+          <HeaderTittle route={pathname} />
         </div>
       </header>
     );
   }
 
-  return <div />;
+  return;
 }
 
 export default Header;
