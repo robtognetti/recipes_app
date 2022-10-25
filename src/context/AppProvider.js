@@ -1,8 +1,8 @@
 import React, { useState, useMemo } from 'react';
-import PropTypes from 'prop-types';
+import { node } from 'prop-types';
 import AppContext from './AppContext';
 
-function Provider({ children }) {
+export default function Provider({ children }) {
   const [mealList, setMealList] = useState([]);
   const [drinksList, setDrinksList] = useState([]);
 
@@ -20,8 +20,6 @@ function Provider({ children }) {
   );
 }
 
-export default Provider;
-
 Provider.propTypes = {
-  children: PropTypes.node.isRequired,
-};
+  children: node,
+}.isRequired;
