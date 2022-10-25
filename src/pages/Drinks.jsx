@@ -27,7 +27,7 @@ export default function Drinks() {
   return (
     <div>
       <Buttons categories={ buttonsList } type="drinks" />
-      {drinksList.map((drink, i) => {
+      {drinksList && drinksList.map((drink, i) => {
         if (i <= MAX_RENDER) {
           return (
             <section key={ drink.idDrink } data-testid={ `${i}-recipe-card` }>

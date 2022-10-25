@@ -9,6 +9,7 @@ export default function Card({ thumb, str, index, idMeal }) {
     const newPath = history.location.pathname.concat(`/${idMeal}`);
     history.push(newPath);
   };
+
   return (
     <div onClick={ handleClick } role="presentation">
       <img src={ thumb } alt={ str } data-testid={ `${index}-card-img` } />
@@ -21,5 +22,5 @@ Card.propTypes = {
   thumb: PropTypes.string.isRequired,
   str: PropTypes.string.isRequired,
   index: PropTypes.number.isRequired,
-  idMeal: PropTypes.number.isRequired,
+  idMeal: PropTypes.string.isRequired,
 };
