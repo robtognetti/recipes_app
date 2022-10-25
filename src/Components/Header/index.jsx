@@ -1,7 +1,9 @@
+import { useState } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
-import SearchIcon from '../images/searchIcon.svg';
-import Usericon from '../images/profileIcon.svg';
+import SearchIcon from '../../images/searchIcon.svg';
+import Usericon from '../../images/profileIcon.svg';
 import HeaderTittle from './HeaderTitle';
+import SearchBar from './SearchBar';
 
 const routesWithHeader = [
   '/meals',
@@ -15,6 +17,8 @@ function Header() {
   const { pathname } = useLocation();
   const history = useHistory();
 
+  const [showInput, setShowInput] = useState(false);
+
   if (routesWithHeader.includes(pathname)) {
     return (
       <header className="header">
@@ -25,7 +29,13 @@ function Header() {
 
           <div className="buttons-container">
             {(pathname === '/meals' || pathname === '/drinks') && (
-              <img src={SearchIcon} alt="Search" data-testid="search-top-btn" />
+              <button type="button" onClick={() => setShowInput(!showInput)}>
+                <img
+                  src={SearchIcon}
+                  alt="Search"
+                  data-testid="search-top-btn"
+                />
+              </button>
             )}
             <button type="button" onClick={() => history.push('/profile')}>
               <img src={Usericon} alt="User" data-testid="profile-top-btn" />
@@ -35,6 +45,7 @@ function Header() {
         <div className="title-container">
           <HeaderTittle route={pathname} />
         </div>
+        {showInput && <SearchBar />}
       </header>
     );
   }

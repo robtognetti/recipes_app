@@ -11,16 +11,33 @@ describe('Teste de 45%', () => {
       history.push('/meals');
       expect(history.location.pathname).toBe('/meals');
     });
-      const title = screen.getByTestId('page-title');
-      expect(title).toBeInTheDocument();
+    const title = screen.getByTestId('page-title');
+    expect(title).toBeInTheDocument();
 
-      const btnProfile = screen.getByTestId('profile-top-btn')
-      expect(btnProfile).toBeInTheDocument()
-      
-      userEvent.click(btnProfile)
+    const btnProfile = screen.getByTestId('profile-top-btn');
+    expect(btnProfile).toBeInTheDocument();
 
-      expect(history.location.pathname).toBe('/profile');
-    
-      expect(title).toHaveTextContent('Profile')
+    userEvent.click(btnProfile);
+
+    expect(history.location.pathname).toBe('/profile');
+
+    expect(title).toHaveTextContent('Profile');
+  });
+  it('should be possible to toggle input search', () => {
+    const { history } = renderWithRouter(<Header />);
+    act(() => {
+      history.push('/meals');
+      expect(history.location.pathname).toBe('/meals');
+    });
+    const searchBtn = screen.getByTestId('search-top-btn');
+    userEvent.click(searchBtn);
+
+    const search = screen.getByTestId('search-input');
+
+    expect(search).toBeInTheDocument();
+
+    userEvent.click(searchBtn);
+
+    expect(search).not.toBeInTheDocument();
   });
 });
