@@ -29,28 +29,26 @@ function Header() {
 
           <div className="buttons-container">
             {(pathname === '/meals' || pathname === '/drinks') && (
-              <button type="button" onClick={() => setShowInput(!showInput)}>
+              <button type="button" onClick={ () => setShowInput(!showInput) }>
                 <img
-                  src={SearchIcon}
+                  src={ SearchIcon }
                   alt="Search"
                   data-testid="search-top-btn"
                 />
               </button>
             )}
-            <button type="button" onClick={() => history.push('/profile')}>
-              <img src={Usericon} alt="User" data-testid="profile-top-btn" />
+            <button type="button" onClick={ () => history.push('/profile') }>
+              <img src={ Usericon } alt="User" data-testid="profile-top-btn" />
             </button>
           </div>
         </div>
         <div className="title-container">
-          <HeaderTittle route={pathname} />
+          <HeaderTittle route={ pathname } />
         </div>
         {showInput && <SearchBar />}
       </header>
     );
   }
-
-  return;
 }
 
 export default Header;

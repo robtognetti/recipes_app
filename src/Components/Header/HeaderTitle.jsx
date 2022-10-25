@@ -6,8 +6,7 @@ function HeaderTittle({ route }) {
 
   if (splicedText.length > 1) {
     for (let i = 0; i < splicedText.length; i += 1) {
-      splicedText[i] =
-        splicedText[i].charAt(0).toUpperCase() + splicedText[i].slice(1);
+      splicedText[i] = splicedText[i].charAt(0).toUpperCase() + splicedText[i].slice(1);
     }
     title = splicedText.join(' ');
   } else {
