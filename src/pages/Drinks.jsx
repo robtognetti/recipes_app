@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useContext } from 'react';
 import Buttons from '../components/Buttons';
 import Card from '../components/Card';
+import Footer from '../components/Footer';
 import AppContext from '../context/AppContext';
 
 const MAX_RENDER = 11;
@@ -25,23 +26,26 @@ export default function Drinks() {
   }, [setDrinksList]);
 
   return (
-    <div>
+    <>
       <Buttons categories={ buttonsList } type="drinks" />
-      {drinksList && drinksList.map((drink, i) => {
-        if (i <= MAX_RENDER) {
-          return (
-            <section key={ drink.idDrink } data-testid={ `${i}-recipe-card` }>
-              <Card
-                thumb={ drink.strDrinkThumb }
-                str={ drink.strDrink }
-                index={ i }
-                idMeal={ drink.idDrink }
-              />
-            </section>
-          );
-        }
-        return (null);
-      })}
-    </div>
+      {
+        drinksList && drinksList.map((drink, i) => {
+          if (i <= MAX_RENDER) {
+            return (
+              <section key={ drink.idDrink } data-testid={ `${i}-recipe-card` }>
+                <Card
+                  thumb={ drink.strDrinkThumb }
+                  str={ drink.strDrink }
+                  index={ i }
+                  idMeal={ drink.idDrink }
+                />
+              </section>
+            );
+          }
+          return (null);
+        })
+      }
+      <Footer />
+    </>
   );
 }
