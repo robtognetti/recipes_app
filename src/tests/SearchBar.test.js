@@ -2,7 +2,7 @@ import React from 'react';
 import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import renderWithRouter from './helpers/renderWithRouter';
-import SearchBar from '../Components/Header/SearchBar';
+import SearchBar from '../components/Header/SearchBar';
 
 describe('Tests of SearchBar', () => {
   it('Should Have the Proper Element', () => {
@@ -30,5 +30,7 @@ describe('Tests of SearchBar', () => {
     userEvent.type(inputSearch, 'chicken');
     userEvent.click(ingredientsInput);
     userEvent.click(btn);
+
+    expect(fetch).toHaveBeenCalled();
   });
 });
