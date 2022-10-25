@@ -1,26 +1,76 @@
-import React from 'react';
+import React, { useRef } from 'react';
+import fetchFilter from '../../utils/fetchItems';
 
 export default function SearchBar() {
+  const inputSearch = useRef(null);
+  const ingredients = useRef(null);
+  const name = useRef(null);
+  const firstLetter = useRef(null);
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    const checked = [
+      {
+        name: 'ingredients',
+        checked: ingredients.current.checked,
+      },
+
+      {
+        name: 'name',
+        checked: name.current.checked,
+      },
+      {
+        name: 'firstLetter',
+        checked: firstLetter.current.checked,
+      },
+    ].find((item) => item.checked);
+
+    fetchFilter(checked.name, inputSearch.current.value);
+  };
+
   return (
-    <div>
-      <input data-testid="search-input" type="search" placeholder="Search" />
+    <form onSubmit={ handleSubmit }>
+      <input
+        data-testid="search-input"
+        type="search"
+        placeholder="Search"
+        ref={ inputSearch }
+      />
       <div>
-        <input
-          type="radio"
-          name="ingredients"
-          data-testid="ingredient-search-radio"
-        />
-        <input type="radio" name="name" data-testid="name-search-radio" />
-        <input
-          type="radio"
-          name="first-letter"
-          data-testid="first-letter-search-radio"
-        />
+        <label htmlFor="ingredients">
+          Ingredients
+          <input
+            type="radio"
+            id="ingredients"
+            name="filter"
+            data-testid="ingredient-search-radio"
+            ref={ ingredients }
+          />
+        </label>
+        <label htmlFor="name">
+          Name
+          <input
+            type="radio"
+            name="filter"
+            data-testid="name-search-radio"
+            ref={ name }
+            id="name"
+          />
+        </label>
+        <label htmlFor="first-letter">
+          First Letter
+          <input
+            type="radio"
+            name="filter"
+            data-testid="first-letter-search-radio"
+            ref={ firstLetter }
+          />
+        </label>
       </div>
 
-      <button type="button" data-testid="exec-search-btn">
+      <button type="submit" data-testid="exec-search-btn">
         SEARCH
       </button>
-    </div>
+    </form>
   );
 }
