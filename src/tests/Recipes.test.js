@@ -1,13 +1,13 @@
 import React from 'react';
 // import { screen } from '@testing-library/react';
 import { act } from 'react-dom/test-utils';
-import renderWithRouter from './helpers/renderWithRouter';
+
 import Recipes from '../pages/Recipes';
-import Provider from '../context/AppProvider';
 import meals from '../../cypress/mocks/meals';
 import mealCategories from '../../cypress/mocks/mealCategories';
 import drinks from '../../cypress/mocks/drinks';
 import drinkCategories from '../../cypress/mocks/drinkCategories';
+import renderWithRouterAndProvider from './helpers/renderWithRouterAndProvider';
 
 describe('Testa a página de receitas', () => {
   it('Testa a renderização inicial de meals', async () => {
@@ -45,11 +45,7 @@ describe('Testa a página de receitas', () => {
     jest.spyOn(window, 'fetch').mockImplementation(() => mockFetch(allMeals));
     jest.spyOn(window, 'fetch').mockImplementation(() => mockFetch(allMealCategories));
 
-    const { history } = renderWithRouter(
-      <Provider>
-        <Recipes />
-      </Provider>,
-    );
+    const { history } = renderWithRouterAndProvider(<Recipes />);
 
     act(() => {
       history.push('/meals');
@@ -67,11 +63,7 @@ describe('Testa a página de receitas', () => {
         json: jest.fn().mockResolvedValueOnce(drinkCategories),
       });
 
-    const { history } = renderWithRouter(
-      <Provider>
-        <Recipes />
-      </Provider>,
-    );
+    const { history } = renderWithRouterAndProvider(<Recipes />);
 
     act(() => {
       history.push('/drinks');
