@@ -1,11 +1,14 @@
 import React, { useRef } from 'react';
-import fetchFilter from '../../utils/fetchItems';
+import { useLocation } from 'react-router-dom';
+import fetchFilter from '../../utils/fetchItens';
 
 export default function SearchBar() {
   const inputSearch = useRef(null);
   const ingredients = useRef(null);
   const name = useRef(null);
   const firstLetter = useRef(null);
+
+  const { pathname } = useLocation();
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -25,7 +28,7 @@ export default function SearchBar() {
       },
     ].find((item) => item.checked);
 
-    fetchFilter(checked.name, inputSearch.current.value);
+    fetchFilter(checked.name, inputSearch.current.value, pathname);
   };
 
   return (
