@@ -2,7 +2,7 @@ import React from 'react';
 import { screen, act } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import renderWithRouter from './helpers/renderWithRouter';
-import Header from '../Components/Header';
+import Header from '../components/Header';
 
 describe('Teste de 45%', () => {
   it('Should have the proper title', () => {
