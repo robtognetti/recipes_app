@@ -1,6 +1,8 @@
 import React, { useRef } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 import fetchFilter from '../../utils/fetchItens';
+
+const getKey = (obj) => obj.meals ?? obj.drinks;
 
 export default function SearchBar() {
   const inputSearch = useRef(null);
@@ -9,8 +11,9 @@ export default function SearchBar() {
   const firstLetter = useRef(null);
 
   const { pathname } = useLocation();
+  const history = useHistory();
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
     const checked = [
       {
@@ -28,16 +31,26 @@ export default function SearchBar() {
       },
     ].find((item) => item.checked);
 
-    fetchFilter(checked.name, inputSearch.current.value, pathname);
+     try { 
+      const arrayItems = getKey(
+        await fetchFilter(checked.name, inputSearch.current.value, pathname),
+      );
+      if (arrayItems.length === 1) {
+        const id = arrayItems[0].idDrink ?? arrayItems[0].idMeal;
+        history.push(`${pathname}/${id}`);
+      }
+    } catch (error) {
+      console.log(error.message);
+    }
   };
 
   return (
-    <form onSubmit={ handleSubmit }>
+    <form onSubmit={handleSubmit}>
       <input
         data-testid="search-input"
         type="search"
         placeholder="Search"
-        ref={ inputSearch }
+        ref={inputSearch}
       />
       <div>
         <label htmlFor="ingredients">
@@ -47,7 +60,7 @@ export default function SearchBar() {
             id="ingredients"
             name="filter"
             data-testid="ingredient-search-radio"
-            ref={ ingredients }
+            ref={ingredients}
           />
         </label>
         <label htmlFor="name">
@@ -56,7 +69,7 @@ export default function SearchBar() {
             type="radio"
             name="filter"
             data-testid="name-search-radio"
-            ref={ name }
+            ref={name}
             id="name"
           />
         </label>
@@ -65,8 +78,9 @@ export default function SearchBar() {
           <input
             type="radio"
             name="filter"
+            id="first-letter"
             data-testid="first-letter-search-radio"
-            ref={ firstLetter }
+            ref={firstLetter}
           />
         </label>
       </div>
