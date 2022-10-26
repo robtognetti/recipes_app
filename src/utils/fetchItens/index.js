@@ -1,6 +1,7 @@
+// import setItems from './setItems';
 import url from './urls';
 
-function fetchFilter(filter, searchInput, pathName) {
+async function fetchFilter(filter, searchInput, pathName) {
   switch (filter) {
   case 'ingredients':
     return fetch(url(pathName, filter) + searchInput).then((res) => res.json());
