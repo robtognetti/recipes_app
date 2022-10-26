@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import DrinkCarousel from './DrinkCarousel';
+import DetailsButtons from './DetailsButtons';
 
 export default function MealDetails() {
   const { recipeId } = useParams();
@@ -16,7 +17,7 @@ export default function MealDetails() {
     callApi();
   }, [recipeId]);
 
-  const getIngredientsList = () => {
+  const getIngredientsAndMeasures = () => {
     const LIMIT_INGREDIENTS = 20;
     const returnArray = [];
     for (let i = 1; i <= LIMIT_INGREDIENTS; i += 1) {
@@ -26,6 +27,12 @@ export default function MealDetails() {
       returnArray.push({ ingredient, measure });
     }
     return returnArray;
+  };
+
+  const getIngredients = () => {
+    const firstArr = getIngredientsAndMeasures();
+    const newArr = firstArr.map((obj) => obj.ingredient);
+    return newArr;
   };
 
   return (
@@ -38,7 +45,7 @@ export default function MealDetails() {
       <h2 data-testid="recipe-title">{recipeDetails.strMeal}</h2>
       <h3 data-testid="recipe-category">{recipeDetails.strCategory}</h3>
       <ul>
-        {getIngredientsList().map((e, i) => (
+        {getIngredientsAndMeasures().map((e, i) => (
           <li key={ i } data-testid={ `${i}-ingredient-name-and-measure` }>
             {e.ingredient}
             <br />
@@ -55,13 +62,7 @@ export default function MealDetails() {
         data-testid="video"
       />
       <DrinkCarousel />
-      <button
-        data-testid="start-recipe-btn"
-        type="button"
-        className="fixed-bottom"
-      >
-        Start Recipe
-      </button>
+      <DetailsButtons type="meals" ingredientsArray={ getIngredients() } />
     </section>
   );
 }
