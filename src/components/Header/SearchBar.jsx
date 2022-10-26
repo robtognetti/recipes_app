@@ -37,6 +37,7 @@ export default function SearchBar() {
       const arrayItems = getKey(
         await fetchFilter(checked.name, inputSearch.current.value, pathname),
       );
+
       if (arrayItems.length === 1) {
         const id = arrayItems[0].idDrink ?? arrayItems[0].idMeal;
         history.push(`${pathname}/${id}`);
@@ -53,7 +54,8 @@ export default function SearchBar() {
         setDrinksList(recipes);
       }
     } catch (error) {
-      console.log(error.message);
+      // TODO: Tratar o erro;
+      global.alert('Sorry, we haven\'t found any recipes for these filters.');
     }
   };
 
