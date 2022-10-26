@@ -1,13 +1,12 @@
 import React from 'react';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
-import Header from '../Components/Header';
+import Header from '../components/Header';
 
 import DoneRecipes from '../pages/DoneRecipes';
-import Drinks from '../pages/Drinks';
 import FavoriteRecipes from '../pages/FavoriteRecipes';
 import Login from '../pages/Login';
-import Meals from '../pages/Meals';
 import Profile from '../pages/Profile';
+import Recipes from '../pages/Recipes';
 
 export default function Routes() {
   return (

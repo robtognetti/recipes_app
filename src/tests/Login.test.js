@@ -73,7 +73,3 @@ describe('A página Login realiza os comportamentos esperados:', () => {
     expect(history.location.pathname).toBe('/meals');
   });
 });
-
-// describe('', () => {
-//   test('', () => {});
-// });
