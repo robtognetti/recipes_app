@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
+import DrinkCarousel from './DrinkCarousel';
 
 export default function MealDetails() {
   const { recipeId } = useParams();
@@ -24,7 +25,6 @@ export default function MealDetails() {
       if (ingredient === '') break;
       returnArray.push({ ingredient, measure });
     }
-    console.log(returnArray);
     return returnArray;
   };
 
@@ -54,6 +54,7 @@ export default function MealDetails() {
         src={ recipeDetails.strYoutube }
         data-testid="video"
       />
+      <DrinkCarousel />
     </section>
   );
 }
