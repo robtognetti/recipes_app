@@ -3,7 +3,7 @@ import { useHistory, useParams } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import shareIcon from '../images/shareIcon.svg';
 import whiteHeartIcon from '../images/whiteHeartIcon.svg';
-// import blackHeartIcon from '../images/blackHeartIcon.svg';
+import blackHeartIcon from '../images/blackHeartIcon.svg';
 import AppContext from '../context/AppContext';
 
 const copy = require('clipboard-copy');
@@ -13,6 +13,7 @@ export default function DetailsButtons({ type, ingredientsArray }) {
   const history = useHistory();
   const [recipeInProgress, setRecipeInProgress] = useState(false);
   const [renderLinkCopied, setRenderLinkCopied] = useState(false);
+  const [isFavorite, setIsFavorite] = useState(false);
   const { recipeDetails } = useContext(AppContext);
 
   useEffect(() => {
@@ -36,9 +37,15 @@ export default function DetailsButtons({ type, ingredientsArray }) {
       ];
       setRecipeInProgress(recipeId in currentObj);
     };
+    const checkIsFavorite = () => {
+      const currArr = JSON.parse(localStorage.getItem('favoriteRecipes'));
+      const bool = currArr.some((obj) => obj.id === recipeId);
+      setIsFavorite(bool);
+    };
     setProgressLocalStorage();
     checkRecipeProgress();
     setFavoritesLocalStorage();
+    checkIsFavorite();
   }, [recipeId, type]);
 
   const handleStartRecipe = () => {
@@ -60,7 +67,7 @@ export default function DetailsButtons({ type, ingredientsArray }) {
     setRenderLinkCopied(true);
   };
 
-  const handleFavorite = () => {
+  const handleAddFavorite = () => {
     let obj;
     if (type === 'meals') {
       const { idMeal, strArea, strCategory, strMeal, strMealThumb } = recipeDetails;
@@ -92,6 +99,14 @@ export default function DetailsButtons({ type, ingredientsArray }) {
       obj,
     ];
     localStorage.setItem('favoriteRecipes', JSON.stringify(newArray));
+    setIsFavorite(true);
+  };
+
+  const handleRemoveFavorite = () => {
+    const oldArray = JSON.parse(localStorage.getItem('favoriteRecipes'));
+    const newArray = oldArray.filter((obj) => obj.id !== recipeId);
+    localStorage.setItem('favoriteRecipes', JSON.stringify(newArray));
+    setIsFavorite(false);
   };
 
   return (
@@ -106,14 +121,14 @@ export default function DetailsButtons({ type, ingredientsArray }) {
         >
           <img src={ shareIcon } alt="compartilhar receita" />
         </button>
-        <button
+        <img
+          src={ isFavorite ? blackHeartIcon : whiteHeartIcon }
+          alt="favoritar receita"
           data-testid="favorite-btn"
-          type="button"
           className="text-center"
-          onClick={ handleFavorite }
-        >
-          <img src={ whiteHeartIcon } alt="favoritar receita" />
-        </button>
+          onClick={ isFavorite ? handleRemoveFavorite : handleAddFavorite }
+          role="presentation"
+        />
       </div>
       <br />
       <button
