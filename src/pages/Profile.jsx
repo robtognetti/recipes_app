@@ -17,7 +17,7 @@ export default function Profile() {
     <section>
       <div>
         <div>
-          <img src={ProfileImage} alt="User Profile" />
+          <img src={ ProfileImage } alt="User Profile" />
           <h1>Profile</h1>
         </div>
         <div>
@@ -29,18 +29,18 @@ export default function Profile() {
         <button
           type="button"
           data-testid="profile-done-btn"
-          onClick={() => history.push('/done-recipes')}
+          onClick={ () => history.push('/done-recipes') }
         >
           Done Recipes
         </button>
         <button
           type="button"
           data-testid="profile-favorite-btn"
-          onClick={() => history.push('/favorite-recipes')}
+          onClick={ () => history.push('/favorite-recipes') }
         >
           Favorite Recipes
         </button>
-        <button type="button" data-testid="profile-logout-btn" onClick={logout}>
+        <button type="button" data-testid="profile-logout-btn" onClick={ logout }>
           Logout
         </button>
       </div>
