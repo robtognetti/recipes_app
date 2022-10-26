@@ -31,7 +31,7 @@ export default function SearchBar() {
       },
     ].find((item) => item.checked);
 
-     try { 
+    try {
       const arrayItems = getKey(
         await fetchFilter(checked.name, inputSearch.current.value, pathname),
       );
@@ -45,12 +45,12 @@ export default function SearchBar() {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={ handleSubmit }>
       <input
         data-testid="search-input"
         type="search"
         placeholder="Search"
-        ref={inputSearch}
+        ref={ inputSearch }
       />
       <div>
         <label htmlFor="ingredients">
@@ -60,7 +60,7 @@ export default function SearchBar() {
             id="ingredients"
             name="filter"
             data-testid="ingredient-search-radio"
-            ref={ingredients}
+            ref={ ingredients }
           />
         </label>
         <label htmlFor="name">
@@ -69,7 +69,7 @@ export default function SearchBar() {
             type="radio"
             name="filter"
             data-testid="name-search-radio"
-            ref={name}
+            ref={ name }
             id="name"
           />
         </label>
@@ -80,7 +80,7 @@ export default function SearchBar() {
             name="filter"
             id="first-letter"
             data-testid="first-letter-search-radio"
-            ref={firstLetter}
+            ref={ firstLetter }
           />
         </label>
       </div>
