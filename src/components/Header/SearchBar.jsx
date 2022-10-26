@@ -1,6 +1,8 @@
-import React, { useRef } from 'react';
-import { useLocation } from 'react-router-dom';
+import React, { useContext, useRef } from 'react';
+import { useHistory, useLocation } from 'react-router-dom';
+import AppContext from '../../context/AppContext';
 import fetchFilter from '../../utils/fetchItens';
+import setItems from '../../utils/fetchItens/setItems';
 
 export default function SearchBar() {
   const inputSearch = useRef(null);
@@ -9,8 +11,10 @@ export default function SearchBar() {
   const firstLetter = useRef(null);
 
   const { pathname } = useLocation();
+  const history = useHistory();
+  const { setDrinksList, setMealList } = useContext(AppContext);
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
     const checked = [
       {
@@ -28,7 +32,8 @@ export default function SearchBar() {
       },
     ].find((item) => item.checked);
 
-    fetchFilter(checked.name, inputSearch.current.value, pathname);
+    const items = await fetchFilter(checked.name, inputSearch.current.value, pathname);
+    setItems({ items, pathname, history, setMealList, setDrinksList });
   };
 
   return (
@@ -65,6 +70,7 @@ export default function SearchBar() {
           <input
             type="radio"
             name="filter"
+            id="first-letter"
             data-testid="first-letter-search-radio"
             ref={ firstLetter }
           />
