@@ -47,6 +47,13 @@ export default function DrinkDetails() {
       </ul>
       <p data-testid="instructions">{recipeDetails.strInstructions}</p>
       <MealCarousel />
+      <button
+        data-testid="start-recipe-btn"
+        type="button"
+        className="fixed-bottom"
+      >
+        Start Recipe
+      </button>
     </section>
   );
 }

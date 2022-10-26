@@ -55,6 +55,13 @@ export default function MealDetails() {
         data-testid="video"
       />
       <DrinkCarousel />
+      <button
+        data-testid="start-recipe-btn"
+        type="button"
+        className="fixed-bottom"
+      >
+        Start Recipe
+      </button>
     </section>
   );
 }

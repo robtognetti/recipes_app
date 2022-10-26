@@ -35,13 +35,13 @@ export default function DrinkCarousel() {
         && carouselList.map((item, i) => (
           <Carousel.Item key={ i }>
             <img
-              className="d-block w-100"
+              className="d-inline w-50"
               src={ item[0].drinkImage }
               alt={ item[0].drinkName }
               data-testid={ `${item[0].id}-recommendation-card` }
             />
             <img
-              className="d-block w-100"
+              className="d-inline w-50"
               src={ item[1].drinkImage }
               alt={ item[1].drinkName }
               data-testid={ `${item[1].id}-recommendation-card` }
