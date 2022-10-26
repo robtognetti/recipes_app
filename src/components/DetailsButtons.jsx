@@ -1,9 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import shareIcon from '../images/shareIcon.svg';
-
-import blackHeartIcon from '../images/blackHeartIcon.svg';
+import whiteHeartIcon from '../images/whiteHeartIcon.svg';
+// import blackHeartIcon from '../images/blackHeartIcon.svg';
+import AppContext from '../context/AppContext';
 
 const copy = require('clipboard-copy');
 
@@ -12,9 +13,10 @@ export default function DetailsButtons({ type, ingredientsArray }) {
   const history = useHistory();
   const [recipeInProgress, setRecipeInProgress] = useState(false);
   const [renderLinkCopied, setRenderLinkCopied] = useState(false);
+  const { recipeDetails } = useContext(AppContext);
 
   useEffect(() => {
-    const setLocalStorage = () => {
+    const setProgressLocalStorage = () => {
       if (!localStorage.getItem('inProgressRecipes')) {
         const obj = {
           drinks: {},
@@ -23,14 +25,20 @@ export default function DetailsButtons({ type, ingredientsArray }) {
         localStorage.setItem('inProgressRecipes', JSON.stringify(obj));
       }
     };
+    const setFavoritesLocalStorage = () => {
+      if (!localStorage.getItem('favoriteRecipes')) {
+        localStorage.setItem('favoriteRecipes', JSON.stringify([]));
+      }
+    };
     const checkRecipeProgress = () => {
       const currentObj = JSON.parse(localStorage.getItem('inProgressRecipes'))[
         type
       ];
       setRecipeInProgress(recipeId in currentObj);
     };
-    setLocalStorage();
+    setProgressLocalStorage();
     checkRecipeProgress();
+    setFavoritesLocalStorage();
   }, [recipeId, type]);
 
   const handleStartRecipe = () => {
@@ -52,6 +60,40 @@ export default function DetailsButtons({ type, ingredientsArray }) {
     setRenderLinkCopied(true);
   };
 
+  const handleFavorite = () => {
+    let obj;
+    if (type === 'meals') {
+      const { idMeal, strArea, strCategory, strMeal, strMealThumb } = recipeDetails;
+      obj = {
+        id: idMeal,
+        type: 'meal',
+        alcoholicOrNot: '',
+        nationality: strArea,
+        category: strCategory,
+        name: strMeal,
+        image: strMealThumb,
+      };
+    } else {
+      const { idDrink, strCategory, strDrink,
+        strAlcoholic, strDrinkThumb } = recipeDetails;
+      obj = {
+        id: idDrink,
+        type: 'drink',
+        nationality: '',
+        alcoholicOrNot: strAlcoholic,
+        category: strCategory,
+        name: strDrink,
+        image: strDrinkThumb,
+      };
+    }
+    const oldArray = JSON.parse(localStorage.getItem('favoriteRecipes'));
+    const newArray = [
+      ...oldArray,
+      obj,
+    ];
+    localStorage.setItem('favoriteRecipes', JSON.stringify(newArray));
+  };
+
   return (
     <section>
       <div className="d-flex justify-content-center">
@@ -68,8 +110,9 @@ export default function DetailsButtons({ type, ingredientsArray }) {
           data-testid="favorite-btn"
           type="button"
           className="text-center"
+          onClick={ handleFavorite }
         >
-          <img src={ blackHeartIcon } alt="favoritar receita" />
+          <img src={ whiteHeartIcon } alt="favoritar receita" />
         </button>
       </div>
       <br />

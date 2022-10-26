@@ -1,11 +1,12 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import DrinkCarousel from './DrinkCarousel';
 import DetailsButtons from './DetailsButtons';
+import AppContext from '../context/AppContext';
 
 export default function MealDetails() {
   const { recipeId } = useParams();
-  const [recipeDetails, setRecipeDetails] = useState({});
+  const { recipeDetails, setRecipeDetails } = useContext(AppContext);
 
   useEffect(() => {
     const callApi = async () => {
@@ -15,7 +16,7 @@ export default function MealDetails() {
       setRecipeDetails(meals[0]);
     };
     callApi();
-  }, [recipeId]);
+  }, [recipeId, setRecipeDetails]);
 
   const getIngredientsAndMeasures = () => {
     const LIMIT_INGREDIENTS = 20;
