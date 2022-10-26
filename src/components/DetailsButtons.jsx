@@ -1,15 +1,17 @@
 import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import shareIcon from '../images/shareIcon.svg';
 
 import blackHeartIcon from '../images/blackHeartIcon.svg';
 
-// const copy = require('clipboard-copy');
+const copy = require('clipboard-copy');
 
 export default function DetailsButtons({ type, ingredientsArray }) {
   const { recipeId } = useParams();
+  const history = useHistory();
   const [recipeInProgress, setRecipeInProgress] = useState(false);
+  const [renderLinkCopied, setRenderLinkCopied] = useState(false);
 
   useEffect(() => {
     const setLocalStorage = () => {
@@ -21,16 +23,15 @@ export default function DetailsButtons({ type, ingredientsArray }) {
         localStorage.setItem('inProgressRecipes', JSON.stringify(obj));
       }
     };
-    setLocalStorage();
-  }, []);
-
-  useEffect(() => {
     const checkRecipeProgress = () => {
-      const currentObj = JSON.parse(localStorage.getItem('inProgressRecipes'))[type];
+      const currentObj = JSON.parse(localStorage.getItem('inProgressRecipes'))[
+        type
+      ];
       setRecipeInProgress(recipeId in currentObj);
     };
+    setLocalStorage();
     checkRecipeProgress();
-  });
+  }, [recipeId, type]);
 
   const handleStartRecipe = () => {
     const currentObj = JSON.parse(localStorage.getItem('inProgressRecipes'));
@@ -42,24 +43,24 @@ export default function DetailsButtons({ type, ingredientsArray }) {
       },
     };
     localStorage.setItem('inProgressRecipes', JSON.stringify(newObj));
+    history.push(`${recipeId}/in-progress`);
     setRecipeInProgress(true);
+  };
+
+  const handleShare = () => {
+    copy(window.location.href);
+    setRenderLinkCopied(true);
   };
 
   return (
     <section>
-      <button
-        data-testid="start-recipe-btn"
-        type="button"
-        className="fixed-bottom"
-        onClick={ handleStartRecipe }
-      >
-        { recipeInProgress ? 'Continue Recipe' : 'Start Recipe'}
-      </button>
       <div className="d-flex justify-content-center">
+        {renderLinkCopied && <p>Link copied!</p>}
         <button
           data-testid="share-btn"
           type="button"
           className="text-center"
+          onClick={ handleShare }
         >
           <img src={ shareIcon } alt="compartilhar receita" />
         </button>
@@ -71,6 +72,15 @@ export default function DetailsButtons({ type, ingredientsArray }) {
           <img src={ blackHeartIcon } alt="favoritar receita" />
         </button>
       </div>
+      <br />
+      <button
+        data-testid="start-recipe-btn"
+        type="button"
+        className="fixed-bottom"
+        onClick={ handleStartRecipe }
+      >
+        {recipeInProgress ? 'Continue Recipe' : 'Start Recipe'}
+      </button>
     </section>
   );
 }
