@@ -1,5 +1,6 @@
-import React, { useRef } from 'react';
+import React, { useContext, useRef } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
+import AppContext from '../../context/AppContext';
 import fetchFilter from '../../utils/fetchItens';
 
 const getKey = (obj) => obj.meals ?? obj.drinks;
@@ -12,6 +13,7 @@ export default function SearchBar() {
 
   const { pathname } = useLocation();
   const history = useHistory();
+  const { setDrinksList, setMealList } = useContext(AppContext);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -38,6 +40,17 @@ export default function SearchBar() {
       if (arrayItems.length === 1) {
         const id = arrayItems[0].idDrink ?? arrayItems[0].idMeal;
         history.push(`${pathname}/${id}`);
+      }
+
+      const maxRecipesOnScreen = 12;
+      const recipes = arrayItems.filter(
+        (_, index) => index < maxRecipesOnScreen,
+      );
+
+      if (pathname === '/meals') {
+        setMealList(recipes);
+      } else {
+        setDrinksList(recipes);
       }
     } catch (error) {
       console.log(error.message);
