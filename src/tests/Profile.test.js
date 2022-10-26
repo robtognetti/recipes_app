@@ -31,4 +31,26 @@ describe('Teste do Profile', () => {
 
     expect(history.location.pathname).toBe('/done-recipes');
   });
+
+  it('Should Redirect to the fav-route', () => {
+    const { history } = renderWithRouter(<Profile />);
+
+    const btnFavRecipes = screen.getByTestId('profile-favorite-btn');
+
+    userEvent.click(btnFavRecipes);
+
+    expect(history.location.pathname).toBe('/favorite-recipes');
+  });
+  it('Should be Possible to Logout', () => {
+    const { history } = renderWithRouter(<Profile />);
+
+    const btnLogOut = screen.getByTestId('profile-logout-btn');
+
+    userEvent.click(btnLogOut);
+
+    expect(history.location.pathname).toBe('/');
+    const storage = localStorage.length;
+
+    expect(storage).toBe(0);
+  });
 });
