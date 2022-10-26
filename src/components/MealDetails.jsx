@@ -1,6 +1,5 @@
-import React, { useEffect, useState, useContext } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import AppContext from '../context/AppContext';
 
 export default function MealDetails() {
   const { recipeId } = useParams();
@@ -10,50 +9,51 @@ export default function MealDetails() {
     const callApi = async () => {
       const endpoint = `https://www.themealdb.com/api/json/v1/1/lookup.php?i=${recipeId}`;
       const { meals } = await fetch(endpoint).then((response) => response.json());
+      meals[0].strYoutube = meals[0].strYoutube.replace(/watch\?v=/, 'embed/');
       setRecipeDetails(meals[0]);
     };
     callApi();
-  }, []);
+  }, [recipeId]);
 
   const getIngredientsList = () => {
-    const objectValues = Object.entries(recipeDetails);
-    const ingredientsArray = objectValues.slice(9, 29);
-    const measuresArray = objectValues.slice(29, 49);
-    const filteredIngredients = ingredientsArray.filter((array) => array[1]);
-    const filteredMeasures = measuresArray.filter((array) => array[1]);
-    const returnArray = filteredIngredients.map((arr, i) => [arr[1], filteredMeasures[i][1]]);
+    const LIMIT_INGREDIENTS = 20;
+    const returnArray = [];
+    for (let i = 1; i <= LIMIT_INGREDIENTS; i += 1) {
+      const ingredient = recipeDetails[`strIngredient${i}`];
+      const measure = recipeDetails[`strMeasure${i}`];
+      if (ingredient === '') break;
+      returnArray.push({ ingredient, measure });
+    }
+    console.log(returnArray);
     return returnArray;
   };
 
   return (
-    <div>
-      {/* {recipeDetails && ( */}
-      <section>
-        <img
-          data-testid="recipe-photo"
-          src={ recipeDetails.strMealThumb }
-          alt={ recipeDetails.strMeal }
-        />
-        <h2 data-testid="recipe-title">{recipeDetails.strMeal}</h2>
-        <h3 data-testid="recipe-category">{recipeDetails.strCategory}</h3>
-        <ul>
-          {getIngredientsList().map((ingredient, i) => (
-            <li key={ i } data-testid={ `${i}-ingredient-name-and-measure` }>
-              {ingredient[0]}
-              <br />
-              {ingredient[1]}
-            </li>
-          ))}
-        </ul>
-        <p data-testid="instructions">{recipeDetails.strInstructions}</p>
-        <iframe
-          width="420"
-          height="315"
-          src={ recipeDetails.strYoutube }
-          data-testid="video"
-        />
-      </section>
-
-    </div>
+    <section>
+      <img
+        data-testid="recipe-photo"
+        src={ recipeDetails.strMealThumb }
+        alt={ recipeDetails.strMeal }
+      />
+      <h2 data-testid="recipe-title">{recipeDetails.strMeal}</h2>
+      <h3 data-testid="recipe-category">{recipeDetails.strCategory}</h3>
+      <ul>
+        {getIngredientsList().map((e, i) => (
+          <li key={ i } data-testid={ `${i}-ingredient-name-and-measure` }>
+            {e.ingredient}
+            <br />
+            {e.measure}
+          </li>
+        ))}
+      </ul>
+      <p data-testid="instructions">{recipeDetails.strInstructions}</p>
+      <iframe
+        title="Video"
+        width="420"
+        height="315"
+        src={ recipeDetails.strYoutube }
+        data-testid="video"
+      />
+    </section>
   );
 }

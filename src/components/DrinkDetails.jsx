@@ -1,6 +1,5 @@
-import React, { useEffect, useState, useContext } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import AppContext from '../context/AppContext';
 
 export default function DrinkDetails() {
   const { recipeId } = useParams();
@@ -13,44 +12,40 @@ export default function DrinkDetails() {
       setRecipeDetails(drinks[0]);
     };
     callApi();
-  }, []);
+  }, [recipeId]);
 
   const getIngredientsList = () => {
-    const objectValues = Object.entries(recipeDetails);
-    const ingredientsArray = objectValues.slice(17, 31);
-    const measuresArray = objectValues.slice(32, 47);
-    const filteredIngredients = ingredientsArray.filter((array) => array[1]);
-    const filteredMeasures = measuresArray.filter((array) => array[1]);
-    const returnArray = filteredIngredients.map((arr, i) => [arr[1], filteredMeasures[i][1]]);
+    const LIMIT_INGREDIENTS = 15;
+    const returnArray = [];
+    for (let i = 1; i <= LIMIT_INGREDIENTS; i += 1) {
+      const ingredient = recipeDetails[`strIngredient${i}`];
+      const measure = recipeDetails[`strMeasure${i}`];
+      if (!ingredient) break;
+      returnArray.push({ ingredient, measure });
+    }
     console.log(returnArray);
     return returnArray;
   };
 
-  const ingredientsList = getIngredientsList();
-
   return (
-    <div>
-      {/* {recipeDetails && ( */}
-      <section>
-        <img
-          data-testid="recipe-photo"
-          src={ recipeDetails.strDrinkThumb }
-          alt={ recipeDetails.strDrink }
-        />
-        <h2 data-testid="recipe-title">{recipeDetails.strDrink}</h2>
-        <h3 data-testid="recipe-category">{recipeDetails.strAlcoholic}</h3>
-        <ul>
-          {ingredientsList && ingredientsList.map((ingredient, i) => (
-            <li key={ i } data-testid={ `${i}-ingredient-name-and-measure` }>
-              {ingredient[0]}
-              <br />
-              {ingredient[1]}
-            </li>
-          ))}
-        </ul>
-        <p data-testid="instructions">{recipeDetails.strInstructions}</p>
-      </section>
-
-    </div>
+    <section>
+      <img
+        data-testid="recipe-photo"
+        src={ recipeDetails.strDrinkThumb }
+        alt={ recipeDetails.strDrink }
+      />
+      <h2 data-testid="recipe-title">{recipeDetails.strDrink}</h2>
+      <h3 data-testid="recipe-category">{recipeDetails.strAlcoholic}</h3>
+      <ul>
+        {getIngredientsList().map((e, i) => (
+          <li key={ i } data-testid={ `${i}-ingredient-name-and-measure` }>
+            {e.ingredient}
+            <br />
+            {e.measure}
+          </li>
+        ))}
+      </ul>
+      <p data-testid="instructions">{recipeDetails.strInstructions}</p>
+    </section>
   );
 }
