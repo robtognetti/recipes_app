@@ -15,7 +15,7 @@ function HorizontalCard({ recipe, index }) {
     setTimeout(() => {
       setIsCopied(false);
     }, timeout);
-  }
+  };
 
   const handleRedirect = () => {
     history.replace(`/${recipe.type}s/${recipe.id}`);
