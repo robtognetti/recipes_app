@@ -1,5 +1,5 @@
 import React from 'react';
-import ShareIcon from '../images/shareIcon.svg';
+import HorizontalCard from '../components/HorizontalCard';
 
 // [{
 //     id: id-da-receita,
@@ -32,37 +32,7 @@ export default function DoneRecipes() {
 
       <main>
         {doneRecipes.map((recipe, index) => (
-          <div key={ recipe.id }>
-            <img
-              src={ recipe.image }
-              alt={ recipe.name }
-              data-testid={ `${index}-horizontal-image` }
-            />
-            <div>
-              <h3 data-testid={ `${index}-horizontal-name` }>{recipe.name}</h3>
-              <span data-testid={ `${index}-horizontal-top-text` }>
-                {recipe.category}
-              </span>
-            </div>
-            <p>
-              Done:
-              {' '}
-              <span data-testid={ `${index}-horizontal-done-date` }>
-                {recipe.doneDate}
-              </span>
-            </p>
-            <img
-              src={ ShareIcon }
-              alt="Share"
-              data-testid={ `${index}-horizontal-share-btn` }
-            />
-
-            {recipe.tags.map((tag) => (
-              <span key={ tag } data-testid={ `${index}-${tag}-horizontal-tag` }>
-                {tag}
-              </span>
-            ))}
-          </div>
+          <HorizontalCard index={index} key={recipe.id} recipe={recipe} />
         ))}
       </main>
     </section>
