@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useContext } from 'react';
-import Buttons from '../components/Buttons';
-import Card from '../components/Card';
-import Footer from '../components/Footer';
+import Buttons from './Buttons';
+import Card from './Card';
+import Footer from './Footer';
 import AppContext from '../context/AppContext';
 
 const MAX_RENDER = 11;

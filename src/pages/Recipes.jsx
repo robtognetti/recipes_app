@@ -1,7 +1,7 @@
 import React from 'react';
 import { useHistory } from 'react-router-dom';
-import Meals from './Meals';
-import Drinks from './Drinks';
+import Meals from '../components/Meals';
+import Drinks from '../components/Drinks';
 
 export default function Recipes() {
   const history = useHistory();

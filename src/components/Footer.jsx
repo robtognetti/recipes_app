@@ -21,13 +21,6 @@ export default function Footer() {
       >
         <img src={ drinkIcon } alt="Drinks" data-testid="drinks-bottom-btn" />
       </button>
-
-      {/* <Link to="/drinks">
-        <img src={ drinkIcon } alt="To Drinks" data-testid="drinks-bottom-btn" />
-      </Link>
-      <Link to="/meals">
-        <img src={ mealIcon } alt="To Meals" data-testid="meals-bottom-btn" />
-      </Link> */}
     </footer>
   );
 }

@@ -4,13 +4,13 @@ import { useParams } from 'react-router-dom';
 export default function MealInProgress() {
   const { recipeId } = useParams();
   const [recipeDetails, setRecipeDetails] = useState({});
-  const { meals: ingredients } = JSON.parse(localStorage.getItem('inProgressRecipes'));
+  const ingredients = JSON.parse(localStorage.getItem('inProgressRecipes')).meals;
 
   useEffect(() => {
     const callApi = async () => {
       const endpoint = `https://www.themealdb.com/api/json/v1/1/lookup.php?i=${recipeId}`;
       const { meals } = await fetch(endpoint).then((response) => response.json());
-      meals[0].strYoutube = meals[0].strYoutube.replace(/watch?v=/, 'embed/');
+      meals[0].strYoutube = meals[0].strYoutube.replace(/watch\?v=/, 'embed/');
       setRecipeDetails(meals[0]);
     };
     callApi();
@@ -27,7 +27,7 @@ export default function MealInProgress() {
         src={ strMealThumb }
       />
       <p data-testid="recipe-category">{ strCategory }</p>
-      { ingredients.map((ingredient, index) => (
+      { ingredients[recipeId].map((ingredient, index) => (
         <label
           data-testid={ `${index}-ingredient-step` }
           htmlFor={ `${index}-ingredient-step` }
