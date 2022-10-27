@@ -10,7 +10,13 @@ export default function FavoriteRecipes() {
       const favoriteRecipesArray = JSON.parse(localStorage.getItem('favoriteRecipes'));
       setFavoriteRecipes(favoriteRecipesArray);
     };
-    getFavoriteRecipes();
+    const setFavoritesLocalStorage = () => {
+      if (!localStorage.getItem('favoriteRecipes')) {
+        localStorage.setItem('favoriteRecipes', JSON.stringify([]));
+      }
+      getFavoriteRecipes();
+    };
+    setFavoritesLocalStorage();
   }, []);
 
   const handleRemoveFavorite = (recipeId) => {
