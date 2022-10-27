@@ -8,7 +8,7 @@ function HorizontalCard({ recipe, index }) {
   const history = useHistory();
 
   const handleSave = async () => {
-    const url = `http://localhost:3000/${recipe.type}s/${recipe.id}`;
+    const url = `${window.location.origin}/${recipe.type}s/${recipe.id}`;
     navigator.clipboard.writeText(url);
     setIsCopied(true);
     const timeout = 1000;
