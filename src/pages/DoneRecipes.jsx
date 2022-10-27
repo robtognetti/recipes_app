@@ -32,7 +32,7 @@ export default function DoneRecipes() {
 
       <main>
         {doneRecipes.map((recipe, index) => (
-          <HorizontalCard index={index} key={recipe.id} recipe={recipe} />
+          <HorizontalCard index={ index } key={ recipe.id } recipe={ recipe } />
         ))}
       </main>
     </section>
