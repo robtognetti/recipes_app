@@ -32,32 +32,35 @@ export default function DoneRecipes() {
 
       <main>
         {doneRecipes.map((recipe, index) => (
-          <div key={recipe.id}>
+          <div key={ recipe.id }>
             <img
-              src={recipe.image}
-              alt={recipe.name}
-              data-testid={`${index}-horizontal-image`}
+              src={ recipe.image }
+              alt={ recipe.name }
+              data-testid={ `${index}-horizontal-image` }
             />
             <div>
-              <h3 data-testid={`${index}-horizontal-name`}>{recipe.name}</h3>
-              <span data-testid={`${index}-horizontal-top-text`}>
+              <h3 data-testid={ `${index}-horizontal-name` }>{recipe.name}</h3>
+              <span data-testid={ `${index}-horizontal-top-text` }>
                 {recipe.category}
               </span>
             </div>
             <p>
-              Done:{' '}
-              <span data-testid={`${index}-horizontal-done-date`}>
+              Done:
+              {' '}
+              <span data-testid={ `${index}-horizontal-done-date` }>
                 {recipe.doneDate}
               </span>
             </p>
             <img
-              src={ShareIcon}
+              src={ ShareIcon }
               alt="Share"
-              data-testid={`${index}-horizontal-share-btn`}
+              data-testid={ `${index}-horizontal-share-btn` }
             />
 
             {recipe.tags.map((tag) => (
-              <span data-testid={`${index}-${tag}-horizontal-tag`}>{tag}</span>
+              <span key={ tag } data-testid={ `${index}-${tag}-horizontal-tag` }>
+                {tag}
+              </span>
             ))}
           </div>
         ))}
