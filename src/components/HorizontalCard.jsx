@@ -1,15 +1,21 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
+import { useHistory } from 'react-router-dom';
 import ShareIcon from '../images/shareIcon.svg';
 
 const copy = require('clipboard-copy');
 
 function HorizontalCard({ recipe, index }) {
   const [renderLinkCopied, setRenderLinkCopied] = useState(false);
+  const history = useHistory();
 
   const handleShare = () => {
     copy(`${window.location.origin}/${recipe.type}s/${recipe.id}`);
     setRenderLinkCopied(true);
+  };
+
+  const handleRedirect = () => {
+    history.replace(`/${recipe.type}s/${recipe.id}`);
   };
 
   return (
@@ -18,9 +24,19 @@ function HorizontalCard({ recipe, index }) {
         src={ recipe.image }
         alt={ recipe.name }
         data-testid={ `${index}-horizontal-image` }
+        onClick={ handleRedirect }
+        role="presentation"
+        className="d-inline w-100"
       />
+      <br />
       <div>
-        <h3 data-testid={ `${index}-horizontal-name` }>{recipe.name}</h3>
+        <h3
+          data-testid={ `${index}-horizontal-name` }
+          onClick={ handleRedirect }
+          role="presentation"
+        >
+          {recipe.name}
+        </h3>
         {recipe.type === 'drink' ? (
           <span data-testid={ `${index}-horizontal-top-text` }>
             {recipe.alcoholicOrNot}
@@ -45,7 +61,7 @@ function HorizontalCard({ recipe, index }) {
         onClick={ handleShare }
         role="presentation"
       />
-      { renderLinkCopied && <p>Link copied!</p> }
+      {renderLinkCopied && <p>Link copied!</p>}
 
       {recipe.tags?.map((tag) => (
         <span key={ tag } data-testid={ `${index}-${tag}-horizontal-tag` }>
