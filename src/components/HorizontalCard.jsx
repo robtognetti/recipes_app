@@ -1,8 +1,17 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import ShareIcon from '../images/shareIcon.svg';
 
+const copy = require('clipboard-copy');
+
 function HorizontalCard({ recipe, index }) {
+  const [renderLinkCopied, setRenderLinkCopied] = useState(false);
+
+  const handleShare = () => {
+    copy(`${window.location.origin}/${recipe.type}s/${recipe.id}`);
+    setRenderLinkCopied(true);
+  };
+
   return (
     <div>
       <img
@@ -33,7 +42,10 @@ function HorizontalCard({ recipe, index }) {
         src={ ShareIcon }
         alt="Share"
         data-testid={ `${index}-horizontal-share-btn` }
+        onClick={ handleShare }
+        role="presentation"
       />
+      { renderLinkCopied && <p>Link copied!</p> }
 
       {recipe.tags?.map((tag) => (
         <span key={ tag } data-testid={ `${index}-${tag}-horizontal-tag` }>
@@ -54,6 +66,7 @@ HorizontalCard.propTypes = {
     tags: PropTypes.arrayOf(PropTypes.string).isRequired,
     doneDate: PropTypes.string.isRequired,
     type: PropTypes.string.isRequired,
+    id: PropTypes.string.isRequired,
   }).isRequired,
   index: PropTypes.number.isRequired,
 };
