@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useState } from 'react';
+import ButtonsWrapper from '../components/ButtonsWrapper';
 import HorizontalCard from '../components/HorizontalCard';
 
 // [{
@@ -16,22 +17,17 @@ import HorizontalCard from '../components/HorizontalCard';
 export default function DoneRecipes() {
   const doneRecipes = JSON.parse(localStorage.getItem('doneRecipes')) ?? [];
 
+  const [recipes, setRecipes] = useState(doneRecipes);
+
   return (
     <section>
-      <div>
-        <button type="button" data-testid="filter-by-all-btn">
-          All
-        </button>
-        <button type="button" data-testid="filter-by-meal-btn">
-          Meals
-        </button>
-        <button type="button" data-testid="filter-by-drink-btn">
-          Drinks
-        </button>
-      </div>
-
+      <ButtonsWrapper
+        recipes={ doneRecipes }
+        setRecipes={ setRecipes }
+        initialRecipes={ doneRecipes }
+      />
       <main>
-        {doneRecipes.map((recipe, index) => (
+        {recipes.map((recipe, index) => (
           <HorizontalCard index={ index } key={ recipe.id } recipe={ recipe } />
         ))}
       </main>
