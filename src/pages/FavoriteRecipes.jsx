@@ -1,23 +1,12 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import HorizontalCard from '../components/HorizontalCard';
+import ButtonsWrapper from '../components/ButtonsWrapper';
 import blackHeartIcon from '../images/blackHeartIcon.svg';
 
 export default function FavoriteRecipes() {
-  const [favoriteRecipes, setFavoriteRecipes] = useState([]);
-
-  useEffect(() => {
-    const getFavoriteRecipes = () => {
-      const favoriteRecipesArray = JSON.parse(localStorage.getItem('favoriteRecipes'));
-      setFavoriteRecipes(favoriteRecipesArray);
-    };
-    const setFavoritesLocalStorage = () => {
-      if (!localStorage.getItem('favoriteRecipes')) {
-        localStorage.setItem('favoriteRecipes', JSON.stringify([]));
-      }
-      getFavoriteRecipes();
-    };
-    setFavoritesLocalStorage();
-  }, []);
+  const favoriteRecipesArray = JSON.parse(localStorage
+    .getItem('favoriteRecipes')) ?? [];
+  const [favorites, setFavoriteRecipes] = useState(favoriteRecipesArray);
 
   const handleRemoveFavorite = (recipeId) => {
     const oldArray = JSON.parse(localStorage.getItem('favoriteRecipes'));
@@ -28,20 +17,12 @@ export default function FavoriteRecipes() {
 
   return (
     <section>
-      <div>
-        <button type="button" data-testid="filter-by-all-btn">
-          All
-        </button>
-        <button type="button" data-testid="filter-by-meal-btn">
-          Meals
-        </button>
-        <button type="button" data-testid="filter-by-drink-btn">
-          Drinks
-        </button>
-      </div>
-
+      <ButtonsWrapper
+        setRecipes={ setFavoriteRecipes }
+        initialRecipes={ favoriteRecipesArray }
+      />
       <main>
-        {favoriteRecipes?.map((recipe, index) => (
+        {favorites.map((recipe, index) => (
           <div key={ index }>
             <HorizontalCard index={ index } key={ recipe.id } recipe={ recipe } />
             <img
