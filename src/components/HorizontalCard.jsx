@@ -35,7 +35,7 @@ function HorizontalCard({ recipe, index }) {
         data-testid={ `${index}-horizontal-share-btn` }
       />
 
-      {recipe.tags.map((tag) => (
+      {recipe.tags?.map((tag) => (
         <span key={ tag } data-testid={ `${index}-${tag}-horizontal-tag` }>
           {tag}
         </span>
