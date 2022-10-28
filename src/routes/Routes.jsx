@@ -9,6 +9,7 @@ import RecipeInProgress from '../pages/RecipeInProgress';
 import DoneRecipes from '../pages/DoneRecipes';
 import FavoriteRecipes from '../pages/FavoriteRecipes';
 import Profile from '../pages/Profile';
+import Footer from '../components/Footer';
 
 export default function Routes() {
   return (
@@ -26,6 +27,7 @@ export default function Routes() {
         <Route exact path="/favorite-recipes" component={ FavoriteRecipes } />
         <Route exact path="/profile" component={ Profile } />
       </Switch>
+      <Footer />
     </BrowserRouter>
   );
 }

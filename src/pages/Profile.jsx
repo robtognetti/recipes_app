@@ -1,6 +1,5 @@
 import React from 'react';
 import { useHistory } from 'react-router-dom';
-import Footer from '../components/Footer';
 import ProfileImage from '../images/profileIcon.svg';
 
 export default function Profile() {
@@ -44,8 +43,6 @@ export default function Profile() {
           Logout
         </button>
       </div>
-
-      <Footer />
     </section>
   );
 }

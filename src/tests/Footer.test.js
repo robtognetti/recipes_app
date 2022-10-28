@@ -2,8 +2,8 @@ import React from 'react';
 import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
-import Meals from '../pages/Meals';
-import Drinks from '../pages/Drinks';
+import Meals from '../components/Meals';
+import Drinks from '../components/Drinks';
 import renderWithRouterAndProvider from './helpers/renderWithRouterAndProvider';
 
 describe('O componente "Footer" possui dois botões que redirecionam para as rotas esperadas:', () => {
