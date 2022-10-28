@@ -7,6 +7,7 @@ function ButtonsWrapper({ setRecipes, initialRecipes }) {
   const handleDrinks = () => setRecipes(initialRecipes
     .filter((item) => item.type === 'drink'));
   const clearRecipes = () => setRecipes(initialRecipes);
+
   return (
     <div>
       <button
