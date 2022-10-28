@@ -1,11 +1,13 @@
 import React from 'react';
-import { useHistory } from 'react-router-dom';
+import { useLocation, useHistory } from 'react-router-dom';
 
 import drinkIcon from '../images/drinkIcon.svg';
 import mealIcon from '../images/mealIcon.svg';
 
+const routesWithFooter = ['/meals', '/drinks', '/profile'];
+
 export default function Footer() {
-  const routesWithFooter = ['/meals', '/drinks', '/profile'];
+  const { pathname } = useLocation();
   const history = useHistory();
 
   if (routesWithFooter.includes(pathname)) {
