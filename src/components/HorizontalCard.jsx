@@ -22,7 +22,7 @@ function HorizontalCard({ recipe, index }) {
   };
 
   return (
-    <div>
+    <div data-testid="recipe">
       <img
         src={ recipe.image }
         alt={ recipe.name }
