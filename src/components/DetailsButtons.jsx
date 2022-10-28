@@ -8,7 +8,7 @@ import AppContext from '../context/AppContext';
 
 const copy = require('clipboard-copy');
 
-export default function DetailsButtons({ type, ingredientsArray }) {
+export default function DetailsButtons({ type }) {
   const { recipeId } = useParams();
   const history = useHistory();
   const [recipeInProgress, setRecipeInProgress] = useState(false);
@@ -54,7 +54,7 @@ export default function DetailsButtons({ type, ingredientsArray }) {
       ...currentObj,
       [type]: {
         ...currentObj[type],
-        [recipeId]: ingredientsArray,
+        [recipeId]: [],
       },
     };
     localStorage.setItem('inProgressRecipes', JSON.stringify(newObj));
@@ -145,5 +145,4 @@ export default function DetailsButtons({ type, ingredientsArray }) {
 
 DetailsButtons.propTypes = {
   type: PropTypes.string.isRequired,
-  ingredientsArray: PropTypes.arrayOf(PropTypes.string).isRequired,
 };
