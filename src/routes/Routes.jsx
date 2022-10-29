@@ -1,9 +1,9 @@
 import React from 'react';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import Footer from '../components/Footer';
 import Header from '../components/Header';
 
-import DoneRecipes from '../pages/DoneRecipes';
-import FavoriteRecipes from '../pages/FavoriteRecipes';
+import FavDoneRecipes from '../pages/FavDoneRecipes';
 import Login from '../pages/Login';
 import Profile from '../pages/Profile';
 import RecipeDetails from '../pages/RecipeDetails';
@@ -26,9 +26,10 @@ export default function Routes() {
         />
         <Route exact path="/drinks" component={ Recipes } />
         <Route exact path="/profile" component={ Profile } />
-        <Route exact path="/done-recipes" component={ DoneRecipes } />
-        <Route exact path="/favorite-recipes" component={ FavoriteRecipes } />
+        <Route exact path="/done-recipes" component={ FavDoneRecipes } />
+        <Route exact path="/favorite-recipes" component={ FavDoneRecipes } />
       </Switch>
+      <Footer />
     </BrowserRouter>
   );
 }

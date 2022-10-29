@@ -1,10 +1,11 @@
 import React from 'react';
 import { useHistory } from 'react-router-dom';
+import showInRoute from './HOC/ShowInRoute';
 
 import drinkIcon from '../images/drinkIcon.svg';
 import mealIcon from '../images/mealIcon.svg';
 
-export default function Footer() {
+function Footer() {
   const history = useHistory();
 
   return (
@@ -24,3 +25,5 @@ export default function Footer() {
     </footer>
   );
 }
+
+export default showInRoute(Footer, ['profile','drinks','meals',])
