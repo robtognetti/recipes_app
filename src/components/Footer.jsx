@@ -26,4 +26,4 @@ function Footer() {
   );
 }
 
-export default showInRoute(Footer, ['profile','drinks','meals',])
+export default showInRoute(Footer, ['profile', 'drinks', 'meals']);

@@ -4,7 +4,6 @@ import HorizontalCard from '../../components/HorizontalCard';
 import blackHeartIcon from '../../images/blackHeartIcon.svg';
 
 export default function FavDoneRecipesMain({ recipes, favorite = true }) {
-
   const handleRemoveFavorite = (recipeId) => {
     const oldArray = JSON.parse(localStorage.getItem('favoriteRecipes'));
     const newArray = oldArray.filter((obj) => obj.id !== recipeId);
@@ -15,13 +14,13 @@ export default function FavDoneRecipesMain({ recipes, favorite = true }) {
   return (
     <main>
       {recipes.map((recipe, index) => (
-        <div key={recipe.id}>
-          <HorizontalCard index={index} key={recipe.id} recipe={recipe} />
+        <div key={ recipe.id }>
+          <HorizontalCard index={ index } key={ recipe.id } recipe={ recipe } />
           {favorite && (
             <img
-              src={blackHeartIcon}
+              src={ blackHeartIcon }
               alt="favoritar receita"
-              onClick={() => handleRemoveFavorite(recipe.id)}
+              onClick={ () => handleRemoveFavorite(recipe.id) }
               role="presentation"
             />
           )}

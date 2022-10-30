@@ -20,18 +20,18 @@ function Header() {
 
         <div className="buttons-container">
           {showInRoute(
-            <button type="button" onClick={() => setShowInput(!showInput)}>
-              <img src={SearchIcon} alt="Search" data-testid="search-top-btn" />
+            <button type="button" onClick={ () => setShowInput(!showInput) }>
+              <img src={ SearchIcon } alt="Search" data-testid="search-top-btn" />
             </button>,
             ['meals', 'drinks'],
           )}
-          <button type="button" onClick={() => history.push('/profile')}>
-            <img src={Usericon} alt="User" data-testid="profile-top-btn" />
+          <button type="button" onClick={ () => history.push('/profile') }>
+            <img src={ Usericon } alt="User" data-testid="profile-top-btn" />
           </button>
         </div>
       </div>
       <div className="title-container">
-        <HeaderTittle route={pathname} />
+        <HeaderTittle route={ pathname } />
       </div>
       {showInput && <SearchBar />}
     </header>
