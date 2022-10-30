@@ -1,6 +1,8 @@
 {
- "singleQuote": true,
-  "useTabs": false,
-  "trailingComma": "all",
-  "jsxSingleQuote": false
+    "singleQuote": true,
+    "useTabs": false,
+    "trailingComma": "all",
+     "jsxSingleQuote": false,
+     "embeddedLanguageFormatting": "auto"
+
 }
