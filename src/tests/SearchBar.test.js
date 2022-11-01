@@ -7,7 +7,7 @@ import SearchBar from '../components/Header/SearchBar';
 import Provider from '../context/AppProvider';
 
 // import { meals12, meals, emptyMeals } from './searchBarMock/mocks';
-import Meals from '../pages/Meals';
+import Meals from '../components/Meals';
 
 describe('Tests of SearchBar', () => {
   it('Should Have the Proper Element', () => {
