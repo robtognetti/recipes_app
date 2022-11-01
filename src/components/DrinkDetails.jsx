@@ -29,11 +29,11 @@ export default function DrinkDetails() {
     return returnArray;
   };
 
-  const getIngredients = () => {
-    const firstArr = getIngredientsAndMeasures();
-    const newArr = firstArr.map((obj) => obj.ingredient);
-    return newArr;
-  };
+  // const getIngredients = () => {
+  //   const firstArr = getIngredientsAndMeasures();
+  //   const newArr = firstArr.map((obj) => obj.ingredient);
+  //   return newArr;
+  // };
 
   return (
     <section>
@@ -55,7 +55,7 @@ export default function DrinkDetails() {
       </ul>
       <p data-testid="instructions">{recipeDetails.strInstructions}</p>
       <MealCarousel />
-      <DetailsButtons type="drinks" ingredientsArray={ getIngredients() } />
+      <DetailsButtons type="drinks" />
     </section>
   );
 }

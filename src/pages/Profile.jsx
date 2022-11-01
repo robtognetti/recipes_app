@@ -43,7 +43,6 @@ export default function Profile() {
           Logout
         </button>
       </div>
-
     </section>
   );
 }

@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 import PropTypes from 'prop-types';
+
 import shareIcon from '../images/shareIcon.svg';
 import whiteHeartIcon from '../images/whiteHeartIcon.svg';
 import blackHeartIcon from '../images/blackHeartIcon.svg';
@@ -8,7 +9,7 @@ import AppContext from '../context/AppContext';
 
 const copy = require('clipboard-copy');
 
-export default function DetailsButtons({ type, ingredientsArray }) {
+export default function DetailsButtons({ type }) {
   const { recipeId } = useParams();
   const history = useHistory();
   const [recipeInProgress, setRecipeInProgress] = useState(false);
@@ -54,7 +55,7 @@ export default function DetailsButtons({ type, ingredientsArray }) {
       ...currentObj,
       [type]: {
         ...currentObj[type],
-        [recipeId]: ingredientsArray,
+        [recipeId]: [],
       },
     };
     localStorage.setItem('inProgressRecipes', JSON.stringify(newObj));
@@ -145,5 +146,4 @@ export default function DetailsButtons({ type, ingredientsArray }) {
 
 DetailsButtons.propTypes = {
   type: PropTypes.string.isRequired,
-  ingredientsArray: PropTypes.arrayOf(PropTypes.string).isRequired,
 };

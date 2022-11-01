@@ -4,6 +4,7 @@ import Buttons from '../components/Buttons';
 import Card from '../components/Card';
 import RecipesPage from '../components/HOC/RecipesPage';
 
+
 const MAX_RENDER = 11;
 
 function Recipes({ recipesList, categoriesList }) {

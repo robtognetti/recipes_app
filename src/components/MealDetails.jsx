@@ -30,11 +30,11 @@ export default function MealDetails() {
     return returnArray;
   };
 
-  const getIngredients = () => {
-    const firstArr = getIngredientsAndMeasures();
-    const newArr = firstArr.map((obj) => obj.ingredient);
-    return newArr;
-  };
+  // const getIngredients = () => {
+  //   const firstArr = getIngredientsAndMeasures();
+  //   const newArr = firstArr.map((obj) => obj.ingredient);
+  //   return newArr;
+  // };
 
   return (
     <section>
@@ -63,7 +63,7 @@ export default function MealDetails() {
         data-testid="video"
       />
       <DrinkCarousel />
-      <DetailsButtons type="meals" ingredientsArray={ getIngredients() } />
+      <DetailsButtons type="meals" />
     </section>
   );
 }
