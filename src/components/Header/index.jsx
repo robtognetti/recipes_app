@@ -19,11 +19,10 @@ function Header() {
         </div>
 
         <div className="buttons-container">
-          {showInRoute(
+          {(pathname === '/meals' | pathname === "/drinks")  && (
             <button type="button" onClick={ () => setShowInput(!showInput) }>
               <img src={ SearchIcon } alt="Search" data-testid="search-top-btn" />
-            </button>,
-            ['meals', 'drinks'],
+            </button>
           )}
           <button type="button" onClick={ () => history.push('/profile') }>
             <img src={ Usericon } alt="User" data-testid="profile-top-btn" />
