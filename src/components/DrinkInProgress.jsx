@@ -12,6 +12,7 @@ export default function DrinkInProgress() {
     localStorage.getItem('inProgressRecipes'),
   ) ?? { drinks: { [recipeId]: [] }, meals: {} }, [recipeId]);
 
+  // OK
   useEffect(() => {
     document.getElementById('finish-recipe-btn').disabled = true;
     const callApi = async () => {
@@ -22,6 +23,7 @@ export default function DrinkInProgress() {
     callApi();
   }, [recipeId, setRecipeDetails]);
 
+  // OK
   useEffect(() => {
     if (Object.keys(recipeDetails).length) {
       const LIMIT_INGREDIENTS = 15;
@@ -65,7 +67,7 @@ export default function DrinkInProgress() {
       parentElement.style.textDecoration = '';
       update[recipeId].splice(update[recipeId].indexOf(textContent), 1);
     }
-    const stringUpdate = JSON.stringify({ ...inProgressRecipes, drknks: update });
+    const stringUpdate = JSON.stringify({ ...inProgressRecipes, drinks: update });
     localStorage.setItem('inProgressRecipes', stringUpdate);
     disableFinishBtn(update[recipeId]);
   };

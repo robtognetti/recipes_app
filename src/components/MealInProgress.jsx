@@ -12,6 +12,7 @@ export default function MealInProgress() {
     localStorage.getItem('inProgressRecipes'),
   ) ?? { meals: { [recipeId]: [] }, drinks: {} }, [recipeId]);
 
+  // OK
   useEffect(() => {
     document.getElementById('finish-recipe-btn').disabled = true;
     const callApi = async () => {
@@ -22,6 +23,7 @@ export default function MealInProgress() {
     callApi();
   }, [recipeId, setRecipeDetails]);
 
+  // OK
   useEffect(() => {
     if (Object.keys(recipeDetails).length) {
       const LIMIT_INGREDIENTS = 20;
