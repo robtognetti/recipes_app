@@ -4,15 +4,16 @@ import { createMemoryHistory } from 'history';
 import { render } from '@testing-library/react';
 import Provider from '../../context/AppProvider';
 
-const renderWithRouterAndProvider = (component) => {
-  const history = createMemoryHistory();
+const renderWithRouterAndProvider = (component, path = '/') => {
+  const history = createMemoryHistory({ initialEntries: [path] });
+
   return ({
     ...render(
-      <Router history={ history }>
-        <Provider>
-          { component }
-        </Provider>
-      </Router>,
+      <Provider>
+        <Router history={history}>
+          {component}
+        </Router>
+      </Provider>
     ),
     history,
   });
