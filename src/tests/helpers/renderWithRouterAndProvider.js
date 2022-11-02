@@ -10,10 +10,10 @@ const renderWithRouterAndProvider = (component, path = '/') => {
   return ({
     ...render(
       <Provider>
-        <Router history={history}>
+        <Router history={ history }>
           {component}
         </Router>
-      </Provider>
+      </Provider>,
     ),
     history,
   });
