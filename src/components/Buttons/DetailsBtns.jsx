@@ -1,21 +1,23 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { useHistory, useParams } from 'react-router-dom';
+import { useHistory, useLocation, useParams } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
-import shareIcon from '../images/shareIcon.svg';
-import whiteHeartIcon from '../images/whiteHeartIcon.svg';
-import blackHeartIcon from '../images/blackHeartIcon.svg';
-import AppContext from '../context/AppContext';
+import shareIcon from '../../images/shareIcon.svg';
+import whiteHeartIcon from '../../images/whiteHeartIcon.svg';
+import blackHeartIcon from '../../images/blackHeartIcon.svg';
+import AppContext from '../../context/AppContext';
 
 const copy = require('clipboard-copy');
 
-export default function DetailsButtons({ type }) {
+export default function DetailsBtns({ type }) {
+  const { recipeDetails } = useContext(AppContext);
   const { recipeId } = useParams();
+  const { pathname } = useLocation();
   const history = useHistory();
+
   const [recipeInProgress, setRecipeInProgress] = useState(false);
   const [renderLinkCopied, setRenderLinkCopied] = useState(false);
   const [isFavorite, setIsFavorite] = useState(false);
-  const { recipeDetails } = useContext(AppContext);
 
   useEffect(() => {
     const setProgressLocalStorage = () => {
@@ -63,16 +65,12 @@ export default function DetailsButtons({ type }) {
     setRecipeInProgress(true);
   };
 
-  const handleShare = () => {
-    copy(window.location.href);
-    setRenderLinkCopied(true);
-  };
-
-  const handleAddFavorite = () => {
-    let obj;
-    if (type === 'meals') {
-      const { idMeal, strArea, strCategory, strMeal, strMealThumb } = recipeDetails;
-      obj = {
+  const mountRecipeObject = () => {
+    switch (type) {
+    case 'meals': {
+      const { idMeal, strArea, strCategory,
+        strMeal, strMealThumb, strTags } = recipeDetails;
+      return ({
         id: idMeal,
         type: 'meal',
         alcoholicOrNot: '',
@@ -80,11 +78,13 @@ export default function DetailsButtons({ type }) {
         category: strCategory,
         name: strMeal,
         image: strMealThumb,
-      };
-    } else {
+        tags: strTags?.split(',') ?? [],
+      });
+    }
+    case 'drinks': {
       const { idDrink, strCategory, strDrink,
-        strAlcoholic, strDrinkThumb } = recipeDetails;
-      obj = {
+        strAlcoholic, strDrinkThumb, strTags } = recipeDetails;
+      return ({
         id: idDrink,
         type: 'drink',
         nationality: '',
@@ -92,13 +92,35 @@ export default function DetailsButtons({ type }) {
         category: strCategory,
         name: strDrink,
         image: strDrinkThumb,
-      };
+        tags: strTags?.split(',') ?? [],
+      });
     }
+    default: return {};
+    }
+  };
+
+  const handleFinishRecipe = () => {
+    const obj = mountRecipeObject();
+    obj.doneDate = new Date();
+
+    const inProgressRecipes = JSON.parse(localStorage.getItem('inProgressRecipes'));
+    inProgressRecipes[type][recipeId] = [];
+    localStorage.setItem('inProgressRecipes', JSON.stringify(inProgressRecipes));
+
+    const prevDoneRecipes = JSON.parse(localStorage.getItem('doneRecipes')) ?? [];
+    if (prevDoneRecipes.every((recipe) => recipe.id !== obj.id)) {
+      const newDoneRecipes = [...prevDoneRecipes, obj];
+      localStorage.setItem('doneRecipes', JSON.stringify(newDoneRecipes));
+    }
+    setRecipeInProgress(false);
+    history.push('/done-recipes');
+  };
+
+  const handleAddFavorite = () => {
+    const obj = mountRecipeObject();
+    delete obj.tags;
     const oldArray = JSON.parse(localStorage.getItem('favoriteRecipes'));
-    const newArray = [
-      ...oldArray,
-      obj,
-    ];
+    const newArray = [...oldArray, obj];
     localStorage.setItem('favoriteRecipes', JSON.stringify(newArray));
     setIsFavorite(true);
   };
@@ -108,6 +130,12 @@ export default function DetailsButtons({ type }) {
     const newArray = oldArray.filter((obj) => obj.id !== recipeId);
     localStorage.setItem('favoriteRecipes', JSON.stringify(newArray));
     setIsFavorite(false);
+  };
+
+  const handleShare = () => {
+    const linkToCopy = window.location.href.replace('/in-progress', '');
+    copy(linkToCopy);
+    setRenderLinkCopied(true);
   };
 
   return (
@@ -132,18 +160,30 @@ export default function DetailsButtons({ type }) {
         />
       </div>
       <br />
-      <button
-        data-testid="start-recipe-btn"
-        type="button"
-        className="fixed-bottom"
-        onClick={ handleStartRecipe }
-      >
-        {recipeInProgress ? 'Continue Recipe' : 'Start Recipe'}
-      </button>
+      {pathname.includes('in-progress') ? (
+        <button
+          id="finish-recipe-btn"
+          data-testid="finish-recipe-btn"
+          type="button"
+          className="fixed-bottom"
+          onClick={ handleFinishRecipe }
+        >
+          Finish Recipe
+        </button>
+      ) : (
+        <button
+          data-testid="start-recipe-btn"
+          type="button"
+          className="fixed-bottom"
+          onClick={ handleStartRecipe }
+        >
+          {recipeInProgress ? 'Continue Recipe' : 'Start Recipe'}
+        </button>
+      )}
     </section>
   );
 }
 
-DetailsButtons.propTypes = {
+DetailsBtns.propTypes = {
   type: PropTypes.string.isRequired,
 };

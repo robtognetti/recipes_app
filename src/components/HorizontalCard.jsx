@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
-import PropTypes from 'prop-types';
 import { useHistory } from 'react-router-dom';
-import ShareIcon from '../images/shareIcon.svg';
+import PropTypes from 'prop-types';
 
-function HorizontalCard({ recipe, index }) {
+import ShareIcon from '../images/shareIcon.svg';
+import blackHeartIcon from '../images/blackHeartIcon.svg';
+
+function HorizontalCard({ recipe, setRecipes, favorite, index }) {
   const [isCopied, setIsCopied] = useState(false);
   const history = useHistory();
 
@@ -19,6 +21,13 @@ function HorizontalCard({ recipe, index }) {
 
   const handleRedirect = () => {
     history.replace(`/${recipe.type}s/${recipe.id}`);
+  };
+
+  const handleRemoveFavorite = (recipeId) => {
+    const oldArray = JSON.parse(localStorage.getItem('favoriteRecipes'));
+    const newArray = oldArray.filter((obj) => obj.id !== recipeId);
+    localStorage.setItem('favoriteRecipes', JSON.stringify(newArray));
+    setRecipes(newArray);
   };
 
   return (
@@ -65,15 +74,27 @@ function HorizontalCard({ recipe, index }) {
         onClick={ handleSave }
       />
       {isCopied && <span>Link copied!</span>}
-
       {recipe.tags?.map((tag) => (
         <span key={ tag } data-testid={ `${index}-${tag}-horizontal-tag` }>
           {tag}
         </span>
       ))}
+      {favorite && (
+        <img
+          src={ blackHeartIcon }
+          alt="favoritar receita"
+          data-testid={ `${index}-horizontal-favorite-btn` }
+          onClick={ () => handleRemoveFavorite(recipe.id) }
+          role="presentation"
+        />
+      )}
     </div>
   );
 }
+
+HorizontalCard.defaultProps = {
+  favorite: true,
+};
 
 HorizontalCard.propTypes = {
   recipe: PropTypes.shape({
@@ -82,11 +103,13 @@ HorizontalCard.propTypes = {
     alcoholicOrNot: PropTypes.string.isRequired,
     nationality: PropTypes.string.isRequired,
     category: PropTypes.string.isRequired,
-    tags: PropTypes.arrayOf(PropTypes.string).isRequired,
-    doneDate: PropTypes.string.isRequired,
+    tags: PropTypes.arrayOf(PropTypes.string),
+    doneDate: PropTypes.string,
     type: PropTypes.string.isRequired,
     id: PropTypes.string.isRequired,
   }).isRequired,
+  setRecipes: PropTypes.func.isRequired,
+  favorite: PropTypes.bool,
   index: PropTypes.number.isRequired,
 };
 

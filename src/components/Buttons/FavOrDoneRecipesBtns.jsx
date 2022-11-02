@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-function ButtonsWrapper({ setRecipes, initialRecipes }) {
+function FavOrDoneRecipesBtns({ setRecipes, initialRecipes }) {
   const handleMeals = () => setRecipes(initialRecipes
     .filter((item) => item.type === 'meal'));
   const handleDrinks = () => setRecipes(initialRecipes
@@ -35,7 +35,7 @@ function ButtonsWrapper({ setRecipes, initialRecipes }) {
   );
 }
 
-ButtonsWrapper.propTypes = {
+FavOrDoneRecipesBtns.propTypes = {
   setRecipes: PropTypes.func.isRequired,
   initialRecipes: PropTypes.arrayOf(
     PropTypes.shape({
@@ -44,4 +44,4 @@ ButtonsWrapper.propTypes = {
   ).isRequired,
 };
 
-export default ButtonsWrapper;
+export default FavOrDoneRecipesBtns;

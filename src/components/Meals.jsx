@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useContext } from 'react';
-import Buttons from './Buttons';
+import CategoriesBtns from './Buttons/CategoriesBtns';
 import Card from './Card';
 import AppContext from '../context/AppContext';
 
@@ -26,7 +26,7 @@ export default function Meals() {
 
   return (
     <>
-      <Buttons categories={ buttonsList } type="meals" />
+      <CategoriesBtns categories={ buttonsList } type="meals" />
       {
         mealList.map((meal, i) => {
           if (i <= MAX_RENDER) {
