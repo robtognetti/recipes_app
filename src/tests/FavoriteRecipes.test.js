@@ -1,12 +1,13 @@
 import React from 'react';
-import { render, screen } from '@testing-library/react';
+import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import FavoriteRecipes from '../pages/FavOrDoneRecipes'; // Talvez não seja mais esse caminho
+import FavoriteRecipes from '../pages/FavoriteRecipes'; // Talvez não seja mais esse caminho
 import favoriteRecipes from './mocks/favoriteRecipes';
+import renderWithRouterAndProvider from './helpers/renderWithRouterAndProvider';
 
 describe('Testa a página de receitas favoritas', () => {
   it('Testa os botões', () => {
-    render(<FavoriteRecipes />);
+    renderWithRouterAndProvider(<FavoriteRecipes />, '/favorite-recipes');
 
     const ids = [
       'filter-by-all-btn',
@@ -22,7 +23,7 @@ describe('Testa a página de receitas favoritas', () => {
 
   it('Testa com o mock do localStorage e o click para desfavoritar', () => {
     localStorage.setItem('favoriteRecipes', JSON.stringify(favoriteRecipes));
-    render(<FavoriteRecipes />);
+    renderWithRouterAndProvider(<FavoriteRecipes />, '/favorite-recipes');
     screen.getByTestId('0-horizontal-name');
     const favoriteBtn = screen.getByTestId('0-horizontal-favorite-btn');
     userEvent.click(favoriteBtn);

@@ -39,9 +39,7 @@ function CarouselComponent({ carouselList }) {
 }
 
 CarouselComponent.propTypes = {
-  carouselList: PropTypes.shape({
-    map: PropTypes.func,
-  }).isRequired,
+  carouselList: PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.shape({}))).isRequired,
 };
 
 export default CarouselHOC(CarouselComponent);

@@ -1,6 +1,6 @@
 import React from 'react';
 import { act } from 'react-dom/test-utils';
-import { screen, waitFor } from '@testing-library/react';
+import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import Recipes from '../pages/Recipes';
 import renderWithRouterAndProvider from './helpers/renderWithRouterAndProvider';
@@ -33,76 +33,79 @@ const singleFetch = (returnValue) => {
   }));
 };
 
+const CARD_NAME_TEXT = '0-card-name';
+
 describe('Testa a página de receitas', () => {
   it('Testa a renderização inicial de drinks', async () => {
     mockFetch(drinksEndpoint, drinks, drinkCategories);
 
-    const { history } = renderWithRouterAndProvider(<Recipes />, '/drinks');
+    renderWithRouterAndProvider(<Recipes />, '/drinks');
     await screen.findByTestId('0-card-img');
   });
 
   it('Testa a renderização inicial de meals', async () => {
     mockFetch(mealEndpoint, meals, mealCategories);
 
-    const { history } = renderWithRouterAndProvider(<Recipes />, '/meals');
+    renderWithRouterAndProvider(<Recipes />, '/meals');
     await screen.findByTestId('0-card-img');
   });
 
   it('Testa a funcionalidade dos botões de meals', async () => {
     mockFetch(mealEndpoint, meals, mealCategories);
 
-    const { history } = renderWithRouterAndProvider(<Recipes />, '/meals');
+    renderWithRouterAndProvider(<Recipes />, '/meals');
     const chickenBtn = await screen.findByTestId('Chicken-category-filter');
     const allBtn = await screen.findByTestId('All-category-filter');
 
     singleFetch(chickenMeals);
 
     await act(async () => userEvent.click(chickenBtn));
-    expect(await screen.findByTestId('0-card-name')).toHaveTextContent('Brown Stew Chicken');
+
+    expect(await screen.findByTestId(CARD_NAME_TEXT)).toHaveTextContent('Brown Stew Chicken');
 
     singleFetch(meals);
 
     await act(async () => userEvent.click(chickenBtn));
-    expect(await screen.findByTestId('0-card-name')).toHaveTextContent('Corba');
+    expect(await screen.findByTestId(CARD_NAME_TEXT)).toHaveTextContent('Corba');
 
     singleFetch(chickenMeals);
     await act(async () => userEvent.click(chickenBtn));
 
     singleFetch(meals);
     await act(async () => userEvent.click(allBtn));
-    expect(await screen.findByTestId('0-card-name')).toHaveTextContent('Corba');
+    expect(await screen.findByTestId(CARD_NAME_TEXT)).toHaveTextContent('Corba');
   });
 
   it('Testa a funcionalidade dos botões de drinks', async () => {
     mockFetch(drinksEndpoint, drinks, drinkCategories);
 
-    const { history } = renderWithRouterAndProvider(<Recipes />, '/drinks');
+    renderWithRouterAndProvider(<Recipes />, '/drinks');
     const cocktailBtn = await screen.findByTestId('Cocktail-category-filter');
     const allBtn = await screen.findByTestId('All-category-filter');
 
     singleFetch(cocktailDrinks);
 
     await act(async () => userEvent.click(cocktailBtn));
-    expect(await screen.findByTestId('0-card-name')).toHaveTextContent('\'57 Chevy with a White License Plate');
+    expect(await screen.findByTestId(CARD_NAME_TEXT)).toHaveTextContent('\'57 Chevy with a White License Plate');
 
     singleFetch(drinks);
 
     await act(async () => userEvent.click(cocktailBtn));
-    expect(await screen.findByTestId('0-card-name')).toHaveTextContent('GG');
+    expect(await screen.findByTestId(CARD_NAME_TEXT)).toHaveTextContent('GG');
 
     singleFetch(cocktailDrinks);
     await act(async () => userEvent.click(cocktailBtn));
 
     singleFetch(drinks);
     await act(async () => userEvent.click(allBtn));
-    expect(await screen.findByTestId('0-card-name')).toHaveTextContent('GG');
+    expect(await screen.findByTestId(CARD_NAME_TEXT)).toHaveTextContent('GG');
   });
 
   it('Testa o redirect do card', async () => {
     mockFetch(drinksEndpoint, drinks, drinkCategories);
 
     const { history } = renderWithRouterAndProvider(<Recipes />, '/drinks');
-    const cardName = await screen.findByTestId('0-card-name');
+    const cardName = await screen.findByTestId(CARD_NAME_TEXT);
     await act(async () => userEvent.click(cardName));
     expect(history.location.pathname).toBe('/drinks/15997');
   });

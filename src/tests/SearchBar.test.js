@@ -1,101 +1,56 @@
-// import React from 'react';
-// import { screen } from '@testing-library/react';
-// import userEvent from '@testing-library/user-event';
-// import { act } from 'react-dom/test-utils';
-// import renderWithRouter from './helpers/renderWithRouter';
-// import SearchBar from '../components/Header/SearchBar';
-// import Provider from '../context/AppProvider';
+import React from 'react';
+import { screen, waitFor } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
+import renderWithRouterAndProvider from './helpers/renderWithRouterAndProvider';
+import drinks from '../../cypress/mocks/drinks';
+import mealCategories from '../../cypress/mocks/mealCategories';
+import meals from '../../cypress/mocks/meals';
+import oneMeal from '../../cypress/mocks/oneMeal';
+import App from '../App';
 
-// // import { meals12, meals, emptyMeals } from './searchBarMock/mocks';
-// import Meals from '../components/Meals';
+const mealEndpoint = 'https://www.themealdb.com/api/json/v1/1/search.php?s=';
+const drinksEndpoint = 'https://www.thecocktaildb.com/api/json/v1/1/search.php?s=';
 
-// describe('Tests of SearchBar', () => {
-//   it('Should Have the Proper Element', () => {
-//     renderWithRouter(
-//       <Provider>
-//         <SearchBar />
-//       </Provider>,
-//     );
+const mockFetch = (firstEndpoint, entireList, categoriesList) => {
+  global.fetch = jest.fn((url) => {
+    if (url === firstEndpoint) {
+      return Promise.resolve({
+        json: jest.fn().mockResolvedValue(entireList),
+      });
+    }
+    return Promise.resolve({
+      json: jest.fn().mockResolvedValue(categoriesList),
+    });
+  });
+};
 
-//     const inputs = [
-//       'search-input',
-//       'ingredient-search-radio',
-//       'name-search-radio',
-//       'first-letter-search-radio',
-//       'exec-search-btn',
-//     ];
+const EMAIL_TEST = 'tryber@teste.com';
+const PASSWORD_TEST = '1234567';
+const EMAIL_TEST_ID = 'email-input';
+const PASSWORD_TEST_ID = 'password-input';
 
-//     inputs.forEach((item) => {
-//       expect(screen.getByTestId(item)).toBeInTheDocument();
-//     });
-//   });
-//   it('Should be Possible to  call a api with proper parameters', async () => {
-//     const { history } = renderWithRouter(
-//       <Provider>
-//         <SearchBar />
-//         <Meals />
-//       </Provider>,
-//     );
+describe('Tests of SearchBar', () => {
+  it('Should be possible to call the api with the parameters', async () => {
+    mockFetch(mealEndpoint, meals, mealCategories);
 
-//     //
-//     act(() => {
-//       history.push('/meals');
-//     });
+    renderWithRouterAndProvider(<App />);
 
-//     // const inputChicken = 'chicken';
+    const emailInput = screen.getByTestId(EMAIL_TEST_ID);
+    const passwordInput = screen.getByTestId(PASSWORD_TEST_ID);
+    const button = screen.getByRole('button', { name: /enter/i });
 
-//     // const urlMeals = 'https://www.themealdb.com/api/json/v1/1/filter.php?i=';
+    userEvent.type(emailInput, EMAIL_TEST);
+    userEvent.type(passwordInput, PASSWORD_TEST);
+    userEvent.click(button);
 
-//     // async function mockFetch(url) {
-//     //   switch (url) {
-//     //     case urlMeals + inputChicken: {
-//     //       return {
-//     //         ok: true,
-//     //         status: 200,
-//     //         json: async () => meals12,
-//     //       };
-//     //     }
-//     //     case urlMeals + 'orange': {
-//     //       return {
-//     //         ok: true,
-//     //         status: 200,
-//     //         json: async () => meals,
-//     //       };
-//     //     }
-//     //       case urlMeals + 'umElement':
-//     //       return {
-//     //         ok: true,
-//     //         status: 200,
-//     //         json: async () => meals1,
-//     //       };
-//     //
-//     //     default:
-//     //       // TODO: nao encontrou nada;
-//     //       return {
-//     //         ok: true,
-//     //         status: 200,
-//     //         json: async () => undefined,
-//     //       };
-//     //   }
-//     // }
-//     //
-//     // jest
-//     //   .spyOn(window, 'fetch')
-//     //   .mockImplementation(() => mockFetch(urlMeals + 'umElement'));
-//     // jest
-//     //   .spyOn(window, 'fetch')
-//     //   .mockImplementation(() => mockFetch(urlMeals +  'asdf'));
-//     // jest.spyOn(window, 'alert').mockImplementation(() => {})
-//     /// ////////////////////////////////////////////////////////////////////
+    await screen.findByTestId('0-card-img');
+    screen.getByTestId('page-title');
 
-//     const btn = screen.getByTestId('exec-search-btn');
-//     const ingredientsInput = screen.getByTestId('ingredient-search-radio');
-
-//     const inputSearch = screen.getByTestId('search-input');
-
-//     // Testa o alert
-//     userEvent.type(inputSearch, 'asdf');
-//     userEvent.click(ingredientsInput);
-//     userEvent.click(btn);
-//   });
-// });
+    waitFor(() => userEvent.click(screen.getByTestId('search-top-btn')));
+    userEvent.type(await screen.findByTestId('search-input'), 'Spicy Arrabiata Penne');
+    userEvent.click(await screen.findByTestId('name-search-radio'));
+    mockFetch(drinksEndpoint, drinks, oneMeal);
+    waitFor(() => userEvent.click(screen.getByTestId('exec-search-btn')));
+    await screen.findByTestId('recipe-title');
+  });
+});
