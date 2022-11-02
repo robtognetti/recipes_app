@@ -1,7 +1,7 @@
 import React, { useContext, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import DrinkCarousel from './DrinkCarousel';
-import DetailsButtons from './DetailsButtons';
+import DetailsBtns from './Buttons/DetailsBtns';
 import AppContext from '../context/AppContext';
 
 export default function MealDetails() {
@@ -30,12 +30,6 @@ export default function MealDetails() {
     return returnArray;
   };
 
-  // const getIngredients = () => {
-  //   const firstArr = getIngredientsAndMeasures();
-  //   const newArr = firstArr.map((obj) => obj.ingredient);
-  //   return newArr;
-  // };
-
   return (
     <section>
       <img
@@ -63,7 +57,7 @@ export default function MealDetails() {
         data-testid="video"
       />
       <DrinkCarousel />
-      <DetailsButtons type="meals" />
+      <DetailsBtns type="meals" />
     </section>
   );
 }

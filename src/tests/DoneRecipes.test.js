@@ -1,7 +1,7 @@
 import { render, screen } from '@testing-library/react';
 import React from 'react';
 
-import DoneRecipes from '../pages/FavDoneRecipes'; // Talvez não seja mais esse caminho
+import DoneRecipes from '../pages/FavOrDoneRecipes'; // Talvez não seja mais esse caminho
 
 const doneRecipes = [
   {

@@ -1,6 +1,6 @@
 import React from 'react';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
-import FavDoneRecipes from '../pages/FavDoneRecipes';
+import FavOrDoneRecipes from '../pages/FavOrDoneRecipes';
 import Login from '../pages/Login';
 import Recipes from '../pages/Recipes';
 import RecipeDetails from '../pages/RecipeDetails';
@@ -18,8 +18,8 @@ export default function Routes() {
         <Route exact path="/meals" component={ Recipes } />
         <Route exact path="/drinks" component={ Recipes } />
         <Route exact path="/profile" component={ Profile } />
-        <Route exact path="/done-recipes" component={ FavDoneRecipes } />
-        <Route exact path="/favorite-recipes" component={ FavDoneRecipes } />
+        <Route exact path="/done-recipes" component={ FavOrDoneRecipes } />
+        <Route exact path="/favorite-recipes" component={ FavOrDoneRecipes } />
         <Route exact path="/meals/:recipeId" component={ RecipeDetails } />
         <Route exact path="/drinks/:recipeId" component={ RecipeDetails } />
         <Route path="/meals/:recipeId/in-progress" component={ RecipeInProgress } />

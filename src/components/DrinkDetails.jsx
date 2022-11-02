@@ -1,7 +1,7 @@
 import React, { useEffect, useContext } from 'react';
 import { useParams } from 'react-router-dom';
 import AppContext from '../context/AppContext';
-import DetailsButtons from './DetailsButtons';
+import DetailsBtns from './Buttons/DetailsBtns';
 import MealCarousel from './MealCarousel';
 
 export default function DrinkDetails() {
@@ -29,12 +29,6 @@ export default function DrinkDetails() {
     return returnArray;
   };
 
-  // const getIngredients = () => {
-  //   const firstArr = getIngredientsAndMeasures();
-  //   const newArr = firstArr.map((obj) => obj.ingredient);
-  //   return newArr;
-  // };
-
   return (
     <section>
       <img
@@ -55,7 +49,7 @@ export default function DrinkDetails() {
       </ul>
       <p data-testid="instructions">{recipeDetails.strInstructions}</p>
       <MealCarousel />
-      <DetailsButtons type="drinks" />
+      <DetailsBtns type="drinks" />
     </section>
   );
 }

@@ -2,14 +2,14 @@ import React, { useState, useEffect, useContext } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
-import shareIcon from '../images/shareIcon.svg';
-import whiteHeartIcon from '../images/whiteHeartIcon.svg';
-import blackHeartIcon from '../images/blackHeartIcon.svg';
-import AppContext from '../context/AppContext';
+import shareIcon from '../../images/shareIcon.svg';
+import whiteHeartIcon from '../../images/whiteHeartIcon.svg';
+import blackHeartIcon from '../../images/blackHeartIcon.svg';
+import AppContext from '../../context/AppContext';
 
 const copy = require('clipboard-copy');
 
-export default function DetailsButtons({ type }) {
+export default function DetailsBtns({ type }) {
   const { recipeId } = useParams();
   const history = useHistory();
   const [recipeInProgress, setRecipeInProgress] = useState(false);
@@ -144,6 +144,6 @@ export default function DetailsButtons({ type }) {
   );
 }
 
-DetailsButtons.propTypes = {
+DetailsBtns.propTypes = {
   type: PropTypes.string.isRequired,
 };

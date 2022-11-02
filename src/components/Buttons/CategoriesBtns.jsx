@@ -1,8 +1,8 @@
 import React, { useContext, useState } from 'react';
 import PropTypes from 'prop-types';
-import AppContext from '../context/AppContext';
+import AppContext from '../../context/AppContext';
 
-export default function Buttons({ categories, type }) {
+export default function CategoriesBtns({ categories, type }) {
   const MAX_RENDER = 4;
   const { setDrinksList, setMealList } = useContext(AppContext);
   const [filteredButton, setFilteredButton] = useState('');
@@ -101,7 +101,7 @@ export default function Buttons({ categories, type }) {
   );
 }
 
-Buttons.propTypes = {
+CategoriesBtns.propTypes = {
   categories: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
   type: PropTypes.string.isRequired,
 };

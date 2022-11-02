@@ -2,7 +2,7 @@ import React from 'react';
 import { useLocation } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
-import Buttons from '../components/Buttons';
+import CategoriesBtns from '../components/Buttons/CategoriesBtns';
 import Card from '../components/Card';
 import RecipesPage from '../components/HOC/RecipesPage';
 
@@ -15,7 +15,7 @@ function Recipes({ recipesList, categoriesList }) {
 
   return (
     <>
-      <Buttons categories={ categoriesList } type={ type } />
+      <CategoriesBtns categories={ categoriesList } type={ type } />
       {recipesList.map((recipe, i) => {
         if (i <= MAX_RENDER) {
           return (

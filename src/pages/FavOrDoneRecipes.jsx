@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { useLocation } from 'react-router-dom';
 
-import ButtonsWrapper from '../components/ButtonsWrapper';
+import FavOrDoneRecipesBtns from '../components/Buttons/FavOrDoneRecipesBtns';
 import HorizontalCard from '../components/HorizontalCard';
 
-export default function FavDoneRecipes() {
+export default function FavOrDoneRecipes() {
   const { pathname } = useLocation();
 
   const favorite = pathname === '/favorite-recipes';
@@ -16,7 +16,7 @@ export default function FavDoneRecipes() {
 
   return (
     <section>
-      <ButtonsWrapper setRecipes={ setRecipes } initialRecipes={ storageRecipes } />
+      <FavOrDoneRecipesBtns setRecipes={ setRecipes } initialRecipes={ storageRecipes } />
       {recipes.map((recipe, index) => (
         <HorizontalCard
           key={ recipe.id }
