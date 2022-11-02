@@ -27,3 +27,29 @@ export const getDetailedRecipe = async (callback, type, recipeId) => {
   }
   callback(result[0]);
 };
+
+export const getRecipesListForCarousel = async (callback, type) => {
+  const MAX_NUMBER = 6;
+  const endpoint = type === 'drinks' ? urlDrinkList : urlMealList;
+  const str = type === 'drinks' ? 'strDrink' : 'strMeal';
+  const thumb = type === 'drinks' ? 'strDrinkThumb' : 'strMealThumb';
+  const response = await (await fetch(endpoint)).json();
+  const result = response[type];
+  const limitedArray = result.slice(0, MAX_NUMBER);
+  const newArr = [];
+  for (let i = 0; i < MAX_NUMBER; i += 2) {
+    newArr.push([
+      {
+        image: limitedArray[i][thumb],
+        name: limitedArray[i][str],
+        id: i,
+      },
+      {
+        image: limitedArray[i + 1][thumb],
+        name: limitedArray[i + 1][str],
+        id: i + 1,
+      },
+    ]);
+  }
+  callback(newArr);
+};

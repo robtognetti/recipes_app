@@ -2,9 +2,8 @@ import React from 'react';
 import { useLocation } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import RecipeDetailsPage from '../components/HOC/RecipesDetailsPage';
-import DrinkCarousel from '../components/DrinkCarousel';
 import DetailsBtns from '../components/Buttons/DetailsBtns';
-import MealCarousel from '../components/MealCarousel';
+import CarouselComponent from '../components/CarouselComponent';
 
 const MAX_MEALS_INGREDIENTS = 20;
 const MAX_DRINKS_INGREDIENTS = 15;
@@ -59,10 +58,7 @@ function RecipeDetails({ recipeDetails }) {
           src={ recipeDetails.strYoutube }
           data-testid="video"
         />}
-
-      {
-        type === 'meals' ? <DrinkCarousel /> : <MealCarousel />
-      }
+      <CarouselComponent />
       <DetailsBtns type={ type } />
     </section>
   );
