@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useCallback } from 'react';
+import React, { useEffect, useCallback } from 'react';
 import { useParams } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
@@ -13,11 +13,7 @@ function RecipeInProgress({ recipeDetails, ingredients, type }) {
   } else {
     newObj = { drinks: { [recipeId]: [] }, meals: {} };
   }
-  // const inProgressRecipes = useMemo(() => JSON.parse(
-  //   localStorage.getItem('inProgressRecipes'),
-  // ) ?? newObj, [recipeId]);
 
-  // const inProgressRecipes = JSON.parse(localStorage.getItem('inProgressRecipes')) ? JSON.parse(localStorage.getItem('inProgressRecipes')) : newObj;
   let inProgressRecipes;
   if (localStorage.getItem('inProgressRecipes')) {
     if (Object.keys(JSON.parse(localStorage.getItem('inProgressRecipes'))[type]).length) {
@@ -26,7 +22,6 @@ function RecipeInProgress({ recipeDetails, ingredients, type }) {
       inProgressRecipes = newObj;
     }
   }
-
 
   const disableFinishBtn = useCallback((listedIngredients = []) => {
     const finishRecipeBtn = document.getElementById('finish-recipe-btn');

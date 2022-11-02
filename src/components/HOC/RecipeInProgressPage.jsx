@@ -6,21 +6,20 @@ import { getDetailedRecipe } from '../../utils/getRecipes';
 const MAX_MEALS_INGREDIENTS = 20;
 const MAX_DRINKS_INGREDIENTS = 15;
 
-// const getIngredients = (callback, recipeDetails, type) => {
-//   if (Object.keys(recipeDetails).length) {
-//     const LIMIT_INGREDIENTS = type === 'meals'
-//       ? MAX_MEALS_INGREDIENTS : MAX_DRINKS_INGREDIENTS;
-//     const update = [];
-//     for (let i = 1; i <= LIMIT_INGREDIENTS; i += 1) {
-//       const ingredient = recipeDetails[`strIngredient${i}`];
-//       if ((ingredient === '' && type === 'meals')
-//       || (!ingredient && type === 'drinks')) break;
-//       update.push(ingredient);
-//     }
-//     callback(update);
-//   }
-
-// };
+const getIngredients = (callback, recipeDetails, type) => {
+  if (Object.keys(recipeDetails).length) {
+    const LIMIT_INGREDIENTS = type === 'meals'
+      ? MAX_MEALS_INGREDIENTS : MAX_DRINKS_INGREDIENTS;
+    const update = [];
+    for (let i = 1; i <= LIMIT_INGREDIENTS; i += 1) {
+      const ingredient = recipeDetails[`strIngredient${i}`];
+      if ((ingredient === '' && type === 'meals')
+      || (!ingredient && type === 'drinks')) break;
+      update.push(ingredient);
+    }
+    callback(update);
+  }
+};
 
 const RecipeInProgressPage = (Component) => {
   function RecipeInProgress() {
@@ -32,28 +31,12 @@ const RecipeInProgressPage = (Component) => {
     const type = pathname.includes('/drinks') ? 'drinks' : 'meals';
 
     useEffect(() => {
-
       getDetailedRecipe(setRecipeDetails, type, recipeId);
     }, [recipeId, setRecipeDetails, type]);
 
     useEffect(() => {
-      const getIngredientsAndMeasures = () => {
-        if (Object.keys(recipeDetails).length) {
-          const LIMIT_INGREDIENTS = type === 'meals'
-            ? MAX_MEALS_INGREDIENTS : MAX_DRINKS_INGREDIENTS;
-          const update = [];
-          for (let i = 1; i <= LIMIT_INGREDIENTS; i += 1) {
-            const ingredient = recipeDetails[`strIngredient${i}`];
-            if ((ingredient === '' && type === 'meals')
-            || (!ingredient && type === 'drinks')) break;
-            update.push(ingredient);
-          }
-          setIngredients(update);
-        }
-      };
-      // getIngredients(setIngredients, recipeDetails, type);
+      getIngredients(setIngredients, recipeDetails, type);
       document.getElementById('finish-recipe-btn').disabled = true;
-      getIngredientsAndMeasures();
     }, [recipeDetails, type]);
 
     return (<Component
