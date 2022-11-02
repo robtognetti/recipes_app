@@ -1,23 +1,26 @@
-import React, { useEffect, useState, useMemo } from 'react';
+import React, { useContext, useEffect, useState, useMemo, useCallback } from 'react';
 import { useParams } from 'react-router-dom';
-// import DetailsButtons from './DetailsButtons';
+
+import AppContext from '../context/AppContext';
+import DetailsBtns from './Buttons/DetailsBtns';
 
 export default function DrinkInProgress() {
   const { recipeId } = useParams();
-  const [recipeDetails, setRecipeDetails] = useState({});
+  const { recipeDetails, setRecipeDetails } = useContext(AppContext);
   const [ingredients, setIngredients] = useState([]);
   const inProgressRecipes = useMemo(() => JSON.parse(
     localStorage.getItem('inProgressRecipes'),
   ) ?? { drinks: { [recipeId]: [] }, meals: {} }, [recipeId]);
 
   useEffect(() => {
+    document.getElementById('finish-recipe-btn').disabled = true;
     const callApi = async () => {
       const endpoint = `https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=${recipeId}`;
       const { drinks } = await fetch(endpoint).then((response) => response.json());
       setRecipeDetails(drinks[0]);
     };
     callApi();
-  }, [recipeId]);
+  }, [recipeId, setRecipeDetails]);
 
   useEffect(() => {
     if (Object.keys(recipeDetails).length) {
@@ -32,15 +35,25 @@ export default function DrinkInProgress() {
     }
   }, [recipeDetails]);
 
+  const disableFinishBtn = useCallback((listedIngredients = []) => {
+    const finishRecipeBtn = document.getElementById('finish-recipe-btn');
+    finishRecipeBtn.disabled = true;
+    if (ingredients.length === listedIngredients.length) {
+      finishRecipeBtn.disabled = false;
+    }
+  }, [ingredients]);
+
   useEffect(() => {
     if (ingredients.length) {
-      inProgressRecipes.drinks[recipeId].forEach((e) => {
+      const listedIngredients = inProgressRecipes.drinks[recipeId];
+      listedIngredients?.forEach((e) => {
         const checkbox = document.getElementById(e);
         checkbox.checked = true;
         checkbox.parentElement.style.textDecoration = 'line-through solid rgb(0, 0, 0)';
       });
+      disableFinishBtn(listedIngredients);
     }
-  }, [recipeId, ingredients, inProgressRecipes]);
+  }, [recipeId, ingredients, inProgressRecipes, disableFinishBtn]);
 
   const handleCheck = ({ target }) => {
     const { checked, parentElement, nextSibling: { textContent } } = target;
@@ -52,8 +65,9 @@ export default function DrinkInProgress() {
       parentElement.style.textDecoration = '';
       update[recipeId].splice(update[recipeId].indexOf(textContent), 1);
     }
-    const updateToString = JSON.stringify({ ...inProgressRecipes, drknks: update });
-    localStorage.setItem('inProgressRecipes', updateToString);
+    const stringUpdate = JSON.stringify({ ...inProgressRecipes, drknks: update });
+    localStorage.setItem('inProgressRecipes', stringUpdate);
+    disableFinishBtn(update[recipeId]);
   };
 
   const { strDrink, strDrinkThumb, strCategory, strInstructions } = recipeDetails;
@@ -82,25 +96,7 @@ export default function DrinkInProgress() {
         </label>
       )) }
       <p data-testid="instructions">{ strInstructions }</p>
-      {/* <DetailsButtons type="drinks" /> */}
-      <button
-        data-testid="share-btn"
-        type="button"
-      >
-        Compartilhar
-      </button>
-      <button
-        data-testid="favorite-btn"
-        type="button"
-      >
-        Favoritar
-      </button>
-      <button
-        data-testid="finish-recipe-btn"
-        type="button"
-      >
-        Finalizar Receita
-      </button>
+      <DetailsBtns type="drinks" />
     </>
   );
 }
