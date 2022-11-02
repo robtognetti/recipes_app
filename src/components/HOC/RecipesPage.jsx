@@ -18,7 +18,7 @@ const RecipesPage = (Component) => {
     useEffect(() => {
       getRecipesCategories(callbackCategories, type);
       getRecipeList(callbackList, type);
-    }, []);
+    }, [type, callbackList, callbackCategories]);
 
     if (type === 'drinks') {
       return <Component categoriesList={ buttonsList } recipesList={ drinksList } />;

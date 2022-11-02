@@ -1,7 +1,7 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import FavoriteRecipes from '../pages/FavoriteRecipes';
+import FavoriteRecipes from '../pages/FavDoneRecipes'; // Talvez não seja mais esse caminho
 import favoriteRecipes from './mocks/favoriteRecipes';
 
 describe('Testa a página de receitas favoritas', () => {

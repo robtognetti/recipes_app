@@ -19,7 +19,7 @@ function Header() {
         </div>
 
         <div className="buttons-container">
-          {(pathname === '/meals' | pathname === "/drinks")  && (
+          {(pathname === '/meals' || pathname === '/drinks') && (
             <button type="button" onClick={ () => setShowInput(!showInput) }>
               <img src={ SearchIcon } alt="Search" data-testid="search-top-btn" />
             </button>
