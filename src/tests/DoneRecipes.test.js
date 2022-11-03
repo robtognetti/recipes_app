@@ -1,7 +1,8 @@
-import { render, screen } from '@testing-library/react';
+import { screen } from '@testing-library/react';
 import React from 'react';
 
-import DoneRecipes from '../pages/FavOrDoneRecipes'; // Talvez não seja mais esse caminho
+import DoneRecipes from '../pages/DoneRecipes'; // Talvez não seja mais esse caminho
+import renderWithRouterAndProvider from './helpers/renderWithRouterAndProvider';
 
 const doneRecipes = [
   {
@@ -31,7 +32,7 @@ const doneRecipes = [
 
 describe('Test component Done Recipes', () => {
   it('Should render the Buttons', () => {
-    render(<DoneRecipes />);
+    renderWithRouterAndProvider(<DoneRecipes />, '/done-recipes');
 
     const ids = [
       'filter-by-all-btn',
@@ -47,7 +48,7 @@ describe('Test component Done Recipes', () => {
 
   it('should Have The Hoeizontal card', async () => {
     localStorage.setItem('doneRecipes', JSON.stringify(doneRecipes));
-    render(<DoneRecipes />);
+    renderWithRouterAndProvider(<DoneRecipes />, '/done-recipes');
 
     const recipes = screen.getAllByTestId('recipe');
 

@@ -1,12 +1,21 @@
 import React from 'react';
-import { render, screen } from '@testing-library/react';
+import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import FavoriteRecipes from '../pages/FavOrDoneRecipes'; // Talvez não seja mais esse caminho
+import FavoriteRecipes from '../pages/FavoriteRecipes'; // Talvez não seja mais esse caminho
 import favoriteRecipes from './mocks/favoriteRecipes';
+import renderWithRouterAndProvider from './helpers/renderWithRouterAndProvider';
+
+Object.defineProperty(navigator, 'clipboard', {
+  value: {
+    writeText: () => {},
+  },
+});
+
+const FAV_RECIPE_PATH = '/favorite-recipes';
 
 describe('Testa a página de receitas favoritas', () => {
   it('Testa os botões', () => {
-    render(<FavoriteRecipes />);
+    renderWithRouterAndProvider(<FavoriteRecipes />, FAV_RECIPE_PATH);
 
     const ids = [
       'filter-by-all-btn',
@@ -22,9 +31,19 @@ describe('Testa a página de receitas favoritas', () => {
 
   it('Testa com o mock do localStorage e o click para desfavoritar', () => {
     localStorage.setItem('favoriteRecipes', JSON.stringify(favoriteRecipes));
-    render(<FavoriteRecipes />);
+    renderWithRouterAndProvider(<FavoriteRecipes />, FAV_RECIPE_PATH);
     screen.getByTestId('0-horizontal-name');
     const favoriteBtn = screen.getByTestId('0-horizontal-favorite-btn');
     userEvent.click(favoriteBtn);
+  });
+
+  it('Testa os botões de filtro', () => {
+    localStorage.setItem('favoriteRecipes', JSON.stringify(favoriteRecipes));
+    renderWithRouterAndProvider(<FavoriteRecipes />, FAV_RECIPE_PATH);
+    userEvent.click(screen.getByTestId('filter-by-meal-btn'));
+    userEvent.click(screen.getByTestId('filter-by-drink-btn'));
+    userEvent.click(screen.getByTestId('filter-by-all-btn'));
+    userEvent.click(screen.getByTestId('0-horizontal-share-btn'));
+    userEvent.click(screen.getByTestId('0-horizontal-name'));
   });
 });

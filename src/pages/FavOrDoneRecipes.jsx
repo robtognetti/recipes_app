@@ -1,31 +1,31 @@
-import React, { useState } from 'react';
-import { useLocation } from 'react-router-dom';
+// import React, { useState } from 'react';
+// import { useLocation } from 'react-router-dom';
 
-import FavOrDoneRecipesBtns from '../components/Buttons/FavOrDoneRecipesBtns';
-import HorizontalCard from '../components/HorizontalCard';
+// import FavOrDoneRecipesBtns from '../components/Buttons/FavOrDoneRecipesBtns';
+// import HorizontalCard from '../components/HorizontalCard';
 
-export default function FavOrDoneRecipes() {
-  const { pathname } = useLocation();
+// export default function FavOrDoneRecipes() {
+//   const { pathname } = useLocation();
 
-  const favorite = pathname === '/favorite-recipes';
-  const localStorageItem = favorite ? 'favoriteRecipes' : 'doneRecipes';
+//   const favorite = pathname === '/favorite-recipes';
+//   const localStorageItem = favorite ? 'favoriteRecipes' : 'doneRecipes';
 
-  const storageRecipes = JSON.parse(localStorage.getItem(localStorageItem)) ?? [];
+//   const storageRecipes = JSON.parse(localStorage.getItem(localStorageItem)) ?? [];
 
-  const [recipes, setRecipes] = useState(storageRecipes);
+//   const [recipes, setRecipes] = useState(storageRecipes);
 
-  return (
-    <section>
-      <FavOrDoneRecipesBtns setRecipes={ setRecipes } initialRecipes={ storageRecipes } />
-      {recipes.map((recipe, index) => (
-        <HorizontalCard
-          key={ recipe.id }
-          index={ index }
-          recipe={ recipe }
-          setRecipes={ setRecipes }
-          favorite={ favorite }
-        />
-      ))}
-    </section>
-  );
-}
+//   return (
+//     <section>
+//       <FavOrDoneRecipesBtns setRecipes={ setRecipes } initialRecipes={ storageRecipes } />
+//       {recipes.map((recipe, index) => (
+//         <HorizontalCard
+//           key={ recipe.id }
+//           index={ index }
+//           recipe={ recipe }
+//           setRecipes={ setRecipes }
+//           favorite={ favorite }
+//         />
+//       ))}
+//     </section>
+//   );
+// }
