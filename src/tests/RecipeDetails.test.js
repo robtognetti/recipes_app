@@ -31,24 +31,26 @@ Object.defineProperty(navigator, 'clipboard', {
   },
 });
 
+const FAV_BTN_STR = 'favorite-btn';
+
 describe('Testa a página de detalhes de receitas', () => {
   it('Testa a página de detalhe de drinks', async () => {
     mockFetch(allMealsURL, meals, oneDrink);
-    const { history } = renderWithRouterAndProvider(<RecipeDetails />, '/drinks/178319');
-    screen.getByTestId('favorite-btn');
+    renderWithRouterAndProvider(<RecipeDetails />, '/drinks/178319');
+    screen.getByTestId(FAV_BTN_STR);
     await screen.findByTestId('0-ingredient-name-and-measure');
     userEvent.click(screen.getByTestId('share-btn'));
-    userEvent.click(screen.getByTestId('favorite-btn'));
-    userEvent.click(screen.getByTestId('favorite-btn'));
+    userEvent.click(screen.getByTestId(FAV_BTN_STR));
+    userEvent.click(screen.getByTestId(FAV_BTN_STR));
     userEvent.click(screen.getByTestId('start-recipe-btn'));
   });
   it('Testa a página de detalhes de meals', async () => {
     mockFetch(allDrinksURL, drinks, oneMeal);
-    const { history } = renderWithRouterAndProvider(<RecipeDetails />, '/meals/52771');
-    screen.getByTestId('favorite-btn');
-    await act(async () => await screen.findByTestId('0-ingredient-name-and-measure'));
+    renderWithRouterAndProvider(<RecipeDetails />, '/meals/52771');
+    screen.getByTestId(FAV_BTN_STR);
+    act(async () => screen.findByTestId('0-ingredient-name-and-measure'));
     userEvent.click(screen.getByTestId('share-btn'));
-    userEvent.click(screen.getByTestId('favorite-btn'));
+    userEvent.click(screen.getByTestId(FAV_BTN_STR));
     userEvent.click(screen.getByTestId('start-recipe-btn'));
   });
 });
